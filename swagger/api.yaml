@@ -1,0 +1,112 @@
+swagger: '2.0'
+info:
+  description: This is a API document for Stylens Service
+  version: 0.0.2
+  title: bl-amazon-api
+  contact:
+    email: master@bluehack.net
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: 'api-prod.stylelens.io'
+basePath: /
+tags:
+  - name: feed
+    description: feed
+  - name: image
+    description: image
+  - name: playground
+    description: playground
+schemes:
+  - http
+paths:
+  /mws:
+    get:
+      tags:
+      - mws
+      summary: ""
+      description: "Returns Main Feeds"
+      operationId: "getProducts"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: ""
+        required: false
+        type: integer
+        format: int32
+      - name: "limit"
+        in: "query"
+        description: ""
+        required: false
+        type: integer
+        format: int32
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/SimpleImage"
+        400:
+          description: "Invalid input"
+        404:
+          description: "Feeds not found"
+
+
+securityDefinitions:
+  api_key:
+    type: apiKey
+    name: api_key
+    in: header
+definitions:
+
+  SimpleImage:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      product_id:
+        type: string
+      host_code:
+        type: string
+      host_url:
+        type: string
+      host_name:
+        type: string
+      class_code:
+        type: string
+        example: ""
+      cate:
+        type: array
+        items:
+          type: string
+      tags:
+        type: string
+        items:
+          type: string
+      price:
+        type: integer
+        format: int32
+      currency_unit:
+        type: string
+      product_url:
+        type: string
+      product_no:
+        type: string
+      nation:
+        type: string
+      main_image_mobile_full:
+        type: string
+        description: "Mobile full size of image url"
+      main_image_mobile_thumb:
+        type: string
+        description: "Mobile thumbnail size of image url"
+      version:
+        type: string
+
+
+externalDocs:
+  description: Find out more about BlueLens
+  url: 'http://bluelens.io'
