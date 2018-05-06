@@ -1,57 +1,293 @@
 ---
 swagger: "2.0"
 info:
-  description: "This is a API document for Stylens Service"
-  version: "0.0.2"
+  description: "This is an API documentation for the Bluehack Amazon Service."
+  version: "0.0.1"
   title: "bl-amazon-api"
   contact:
     email: "master@bluehack.net"
   license:
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-host: "api-prod.stylelens.io"
+host: "104.198.83.158:80"
 basePath: "/"
 tags:
-- name: "feed"
-  description: "feed"
-- name: "image"
-  description: "image"
-- name: "playground"
-  description: "playground"
+- name: "product"
+  description: "bluehack product api"
+- name: "advertising"
+  description: "amazon product advertising api"
+- name: "mws"
+  description: "amazon mws api"
 schemes:
 - "http"
 paths:
-  /mws:
+  /products/status:
     get:
       tags:
-      - "mws"
-      summary: ""
-      description: "Returns Main Feeds"
-      operationId: "get_products"
+      - "product"
+      summary: "Get Product API status"
+      description: "Returns Product API status"
+      operationId: "get_products_status"
       produces:
       - "application/json"
-      parameters:
-      - name: "offset"
-        in: "query"
-        description: ""
-        required: false
-        type: "integer"
-        format: "int32"
-      - name: "limit"
-        in: "query"
-        description: ""
-        required: false
-        type: "integer"
-        format: "int32"
+      parameters: []
       responses:
         200:
           description: "successful operation"
           schema:
-            $ref: "#/definitions/SimpleImage"
+            $ref: "#/definitions/GetProductsStatusResponse"
         400:
           description: "Invalid input"
         404:
-          description: "Feeds not found"
+          description: "Products not found"
+      x-swagger-router-controller: "swagger_server.controllers.product_controller"
+  /products/browseNodes/{nodeId}/attributes:
+    get:
+      tags:
+      - "product"
+      summary: "Get attributes within a specified browse node for the title generating"
+      description: "Return Attributes"
+      operationId: "get_products_browse_node_attributes"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nodeId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/GetProductsBrowseNodeAttributesResponse"
+        400:
+          description: "Invalid input"
+        404:
+          description: "Products not found"
+      x-swagger-router-controller: "swagger_server.controllers.product_controller"
+  /products/browseNodes/{nodeId}/validValue:
+    get:
+      tags:
+      - "product"
+      summary: "Get the browse node's valid value for submiting a flat file"
+      description: "Return Valid Value"
+      operationId: "get_products_browse_node_valid_value"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nodeId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/GetProductsBrowseNodeValidValueResponse"
+        400:
+          description: "Invalid input"
+        404:
+          description: "Products not found"
+      x-swagger-router-controller: "swagger_server.controllers.product_controller"
+  /advertising/status:
+    get:
+      tags:
+      - "advertising"
+      summary: "Get Amazon Product Advertising API status"
+      description: "Returns Amazon Product Advertising API status (GREEN/YELLOW/RED)"
+      operationId: "get_advertising_status"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/GetAdvertisingStatusResponse"
+        400:
+          description: "Invalid input"
+        404:
+          description: "Products not found"
+      x-swagger-router-controller: "swagger_server.controllers.advertising_controller"
+  /advertising/browseNodes/{nodeId}:
+    get:
+      tags:
+      - "advertising"
+      summary: "Get browse node hierarchy from Amazon"
+      description: "Return BrowseNodes Hierarchy"
+      operationId: "get_advertising_browse_node"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nodeId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/GetAdvertisingBrowseNodesResponse"
+        400:
+          description: "Invalid input"
+        404:
+          description: "Advertising not found"
+      x-swagger-router-controller: "swagger_server.controllers.advertising_controller"
+  /advertising/browseNodes/{nodeId}/topSellers:
+    get:
+      tags:
+      - "advertising"
+      summary: "Get 10 top sellers within a specified browse node from Amazon"
+      description: "Return 10 top sellers"
+      operationId: "get_advertising_browse_node_top_sellers"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nodeId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/GetAdvertisingBrowseNodesTopSellersResponse"
+        400:
+          description: "Invalid input"
+        404:
+          description: "Advertising not found"
+      x-swagger-router-controller: "swagger_server.controllers.advertising_controller"
+  /mws/status:
+    get:
+      tags:
+      - "mws"
+      summary: "Get Amazon MWS API status"
+      description: "Return Amazon MWS API status (GREEN/YELLOW/RED)"
+      operationId: "get_mws_status"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/GetMwsStatusResponse"
+        400:
+          description: "Invalid input"
+        404:
+          description: "MWS not found"
+      x-swagger-router-controller: "swagger_server.controllers.mws_controller"
+  /mws/feeds/submit:
+    post:
+      tags:
+      - "mws"
+      summary: "Post feed with a flat file"
+      description: "Uploads a feed for processing by Amazon MWS"
+      operationId: "post_submit_feed"
+      consumes:
+      - "multipart/form-data"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "file"
+        in: "formData"
+        description: "file: xxx.txt / content_type: text/tab-separated-values"
+        required: true
+        type: "file"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/PostSubmitFeedResponse"
+        400:
+          description: "Invalid input"
+        404:
+          description: "MWS not found"
+      x-swagger-router-controller: "swagger_server.controllers.mws_controller"
+  /mws/feeds/submissions:
+    get:
+      tags:
+      - "mws"
+      summary: "Get a list of feed submissions submitted"
+      description: "Returns a list of all feed submissions submitted in the previous\
+        \ 90 days"
+      operationId: "get_mws_feeds_submissions"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "feedSubmissionIds"
+        in: "query"
+        description: ""
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+      - name: "feedTypes"
+        in: "query"
+        description: ""
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+      - name: "processingStatuses"
+        in: "query"
+        description: ""
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+      - name: "maxCount"
+        in: "query"
+        description: ""
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "nextToken"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/GetMwsFeedsSubmissionsResponse"
+        400:
+          description: "Invalid input"
+        404:
+          description: "MWS not found"
+      x-swagger-router-controller: "swagger_server.controllers.mws_controller"
+  /mws/feeds/submissions/{feedSubmissionId}/result:
+    get:
+      tags:
+      - "mws"
+      summary: "Get the feed processing report"
+      description: "Returns the feed processing report and the Content-MD5 header"
+      operationId: "get_mws_feeds_submissions_result"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "feedSubmissionId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/GetMwsFeedsSubmissionsResultResponse"
+        400:
+          description: "Invalid input"
+        404:
+          description: "MWS not found"
       x-swagger-router-controller: "swagger_server.controllers.mws_controller"
 securityDefinitions:
   api_key:
@@ -59,69 +295,328 @@ securityDefinitions:
     name: "api_key"
     in: "header"
 definitions:
-  SimpleImage:
+  BrowseNode:
     type: "object"
     properties:
-      id:
+      node_id:
         type: "string"
       name:
         type: "string"
-      product_id:
+    example:
+      name: "name"
+      node_id: "node_id"
+  TopItem:
+    type: "object"
+    properties:
+      asin:
         type: "string"
-      host_code:
+      title:
         type: "string"
-      host_url:
+      detail_page_url:
         type: "string"
-      host_name:
-        type: "string"
-      class_code:
-        type: "string"
-        example: ""
-      cate:
-        type: "array"
-        items:
-          type: "string"
-      tags:
-        type: "string"
-      price:
-        type: "integer"
-        format: "int32"
-      currency_unit:
-        type: "string"
-      product_url:
-        type: "string"
-      product_no:
-        type: "string"
-      nation:
-        type: "string"
-      main_image_mobile_full:
-        type: "string"
-        description: "Mobile full size of image url"
-      main_image_mobile_thumb:
-        type: "string"
-        description: "Mobile thumbnail size of image url"
-      version:
+      product_group:
         type: "string"
     example:
-      cate:
-      - "cate"
-      - "cate"
-      host_url: "host_url"
-      main_image_mobile_thumb: "main_image_mobile_thumb"
-      product_url: "product_url"
-      nation: "nation"
-      currency_unit: "currency_unit"
-      product_no: "product_no"
-      main_image_mobile_full: "main_image_mobile_full"
-      version: "version"
-      tags: "tags"
-      host_code: "host_code"
-      price: 0
-      product_id: "product_id"
+      asin: "asin"
+      title: "title"
+      product_group: "product_group"
+      detail_page_url: "detail_page_url"
+  Attr:
+    type: "object"
+    properties:
+      attr_code:
+        type: "string"
+      value:
+        type: "string"
+    example:
+      attr_code: "attr_code"
+      value: "value"
+  SubAttr:
+    type: "object"
+    properties:
+      sub_attr_code:
+        type: "string"
+      value:
+        type: "string"
+      text:
+        type: "string"
+    example:
+      sub_attr_code: "sub_attr_code"
+      text: "text"
+      value: "value"
+  FeedSubmissionInfo:
+    type: "object"
+    properties:
+      feed_submission_id:
+        type: "string"
+      feed_processing_status:
+        type: "string"
+      feed_type:
+        type: "string"
+    example:
+      feed_submission_id: "feed_submission_id"
+      feed_type: "feed_type"
+      feed_processing_status: "feed_processing_status"
+  GetProductsStatusResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+    example:
+      message: "message"
+  GetProductsBrowseNodeAttributesResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      data:
+        type: "array"
+        items:
+          $ref: "#/definitions/GetProductsBrowseNodeAttributesResponse_data"
+    example:
+      data:
+      - sub_attrs:
+        - sub_attr_code: "sub_attr_code"
+          text: "text"
+          value: "value"
+        - sub_attr_code: "sub_attr_code"
+          text: "text"
+          value: "value"
+        attr:
+          attr_code: "attr_code"
+          value: "value"
+      - sub_attrs:
+        - sub_attr_code: "sub_attr_code"
+          text: "text"
+          value: "value"
+        - sub_attr_code: "sub_attr_code"
+          text: "text"
+          value: "value"
+        attr:
+          attr_code: "attr_code"
+          value: "value"
+      message: "message"
+  GetProductsBrowseNodeValidValueResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      data:
+        $ref: "#/definitions/GetProductsBrowseNodeValidValueResponse_data"
+    example:
+      data:
+        valid_value: "valid_value"
+      message: "message"
+  GetAdvertisingStatusResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+    example:
+      message: "message"
+  GetAdvertisingBrowseNodesResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      data:
+        $ref: "#/definitions/GetAdvertisingBrowseNodesResponse_data"
+    example:
+      data:
+        children:
+        - name: "name"
+          node_id: "node_id"
+        - name: "name"
+          node_id: "node_id"
+        name: "name"
+        ancestors:
+        - name: "name"
+          node_id: "node_id"
+        - name: "name"
+          node_id: "node_id"
+        node_id: "node_id"
+      message: "message"
+  GetAdvertisingBrowseNodesTopSellersResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      data:
+        $ref: "#/definitions/GetAdvertisingBrowseNodesTopSellersResponse_data"
+    example:
+      data:
+        name: "name"
+        top_items:
+        - asin: "asin"
+          title: "title"
+          product_group: "product_group"
+          detail_page_url: "detail_page_url"
+        - asin: "asin"
+          title: "title"
+          product_group: "product_group"
+          detail_page_url: "detail_page_url"
+        node_id: "node_id"
+      message: "message"
+  GetMwsStatusResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+    example:
+      message: "message"
+  PostSubmitFeedResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      data:
+        $ref: "#/definitions/PostSubmitFeedResponse_data"
+    example:
+      data:
+        feed_submission_info:
+          feed_submission_id: "feed_submission_id"
+          feed_type: "feed_type"
+          feed_processing_status: "feed_processing_status"
+      message: "message"
+  GetMwsFeedsSubmissionsResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      data:
+        $ref: "#/definitions/GetMwsFeedsSubmissionsResponse_data"
+    example:
+      data:
+        feed_submission_info:
+        - feed_submission_id: "feed_submission_id"
+          feed_type: "feed_type"
+          feed_processing_status: "feed_processing_status"
+        - feed_submission_id: "feed_submission_id"
+          feed_type: "feed_type"
+          feed_processing_status: "feed_processing_status"
+        has_next: "has_next"
+        next_token: "next_token"
+      message: "message"
+  GetMwsFeedsSubmissionsResultResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      data:
+        $ref: "#/definitions/GetMwsFeedsSubmissionsResultResponse_data"
+    example:
+      data:
+        result: "result"
+      message: "message"
+  GetProductsBrowseNodeAttributesResponse_data:
+    properties:
+      attr:
+        $ref: "#/definitions/Attr"
+      sub_attrs:
+        type: "array"
+        items:
+          $ref: "#/definitions/SubAttr"
+    example:
+      sub_attrs:
+      - sub_attr_code: "sub_attr_code"
+        text: "text"
+        value: "value"
+      - sub_attr_code: "sub_attr_code"
+        text: "text"
+        value: "value"
+      attr:
+        attr_code: "attr_code"
+        value: "value"
+  GetProductsBrowseNodeValidValueResponse_data:
+    properties:
+      valid_value:
+        type: "string"
+    example:
+      valid_value: "valid_value"
+  GetAdvertisingBrowseNodesResponse_data:
+    properties:
+      node_id:
+        type: "string"
+      name:
+        type: "string"
+      children:
+        type: "array"
+        items:
+          $ref: "#/definitions/BrowseNode"
+      ancestors:
+        type: "array"
+        items:
+          $ref: "#/definitions/BrowseNode"
+    example:
+      children:
+      - name: "name"
+        node_id: "node_id"
+      - name: "name"
+        node_id: "node_id"
       name: "name"
-      id: "id"
-      host_name: "host_name"
-      class_code: ""
+      ancestors:
+      - name: "name"
+        node_id: "node_id"
+      - name: "name"
+        node_id: "node_id"
+      node_id: "node_id"
+  GetAdvertisingBrowseNodesTopSellersResponse_data:
+    properties:
+      node_id:
+        type: "string"
+      name:
+        type: "string"
+      top_items:
+        type: "array"
+        items:
+          $ref: "#/definitions/TopItem"
+    example:
+      name: "name"
+      top_items:
+      - asin: "asin"
+        title: "title"
+        product_group: "product_group"
+        detail_page_url: "detail_page_url"
+      - asin: "asin"
+        title: "title"
+        product_group: "product_group"
+        detail_page_url: "detail_page_url"
+      node_id: "node_id"
+  PostSubmitFeedResponse_data:
+    properties:
+      feed_submission_info:
+        $ref: "#/definitions/FeedSubmissionInfo"
+    example:
+      feed_submission_info:
+        feed_submission_id: "feed_submission_id"
+        feed_type: "feed_type"
+        feed_processing_status: "feed_processing_status"
+  GetMwsFeedsSubmissionsResponse_data:
+    properties:
+      feed_submission_info:
+        type: "array"
+        items:
+          $ref: "#/definitions/FeedSubmissionInfo"
+      has_next:
+        type: "string"
+      next_token:
+        type: "string"
+    example:
+      feed_submission_info:
+      - feed_submission_id: "feed_submission_id"
+        feed_type: "feed_type"
+        feed_processing_status: "feed_processing_status"
+      - feed_submission_id: "feed_submission_id"
+        feed_type: "feed_type"
+        feed_processing_status: "feed_processing_status"
+      has_next: "has_next"
+      next_token: "next_token"
+  GetMwsFeedsSubmissionsResultResponse_data:
+    properties:
+      result:
+        type: "string"
+    example:
+      result: "result"
 externalDocs:
-  description: "Find out more about BlueLens"
-  url: "http://bluelens.io"
+  description: "Find out more about Bluehack Inc."
+  url: "http://bluehack.net"

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 export ORG="bluelens"
-export IMAGE="style-api"
+export IMAGE="bl-amazon-api"
 export TAG='prod'
 export NAMESPACE="prod"
 

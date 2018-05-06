@@ -1,57 +1,288 @@
 swagger: '2.0'
 info:
-  description: This is a API document for Stylens Service
-  version: 0.0.2
+  description: This is an API documentation for the Bluehack Amazon Service.
+  version: 0.0.1
   title: bl-amazon-api
   contact:
     email: master@bluehack.net
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
-host: 'api-prod.stylelens.io'
+host: '104.198.83.158:80'
 basePath: /
 tags:
-  - name: feed
-    description: feed
-  - name: image
-    description: image
-  - name: playground
-    description: playground
+  - name: product
+    description: bluehack product api
+  - name: advertising
+    description: amazon product advertising api
+  - name: mws
+    description: amazon mws api
 schemes:
   - http
 paths:
-  /mws:
+  /products/status:
     get:
       tags:
-      - mws
-      summary: ""
-      description: "Returns Main Feeds"
-      operationId: "getProducts"
+      - product
+      summary: Get Product API status
+      description: Returns Product API status
+      operationId: "getProductsStatus"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/GetProductsStatusResponse"
+        400:
+          description: Invalid input
+        404:
+          description: Products not found
+
+  /products/browseNodes/{nodeId}/attributes:
+    get:
+      tags:
+      - product
+      summary: Get attributes within a specified browse node for the title generating
+      description: Return Attributes
+      operationId: "getProductsBrowseNodeAttributes"
       produces:
       - "application/json"
       parameters:
-      - name: "offset"
-        in: "query"
+      - name: nodeId
+        in: "path"
         description: ""
-        required: false
-        type: integer
-        format: int32
-      - name: "limit"
-        in: "query"
-        description: ""
-        required: false
-        type: integer
-        format: int32
+        required: true
+        type: string
       responses:
         200:
-          description: "successful operation"
+          description: successful operation
           schema:
-            $ref: "#/definitions/SimpleImage"
+            $ref: "#/definitions/GetProductsBrowseNodeAttributesResponse"
         400:
-          description: "Invalid input"
+          description: Invalid input
         404:
-          description: "Feeds not found"
+          description: Products not found
 
+  /products/browseNodes/{nodeId}/validValue:
+    get:
+      tags:
+      - product
+      summary: Get the browse node's valid value for submiting a flat file
+      description: Return Valid Value
+      operationId: "getProductsBrowseNodeValidValue"
+      produces:
+      - "application/json"
+      parameters:
+      - name: nodeId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/GetProductsBrowseNodeValidValueResponse"
+        400:
+          description: Invalid input
+        404:
+          description: Products not found
+
+  /advertising/status:
+    get:
+      tags:
+      - advertising
+      summary: Get Amazon Product Advertising API status
+      description: Returns Amazon Product Advertising API status (GREEN/YELLOW/RED)
+      operationId: "getAdvertisingStatus"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/GetAdvertisingStatusResponse"
+        400:
+          description: Invalid input
+        404:
+          description: Products not found
+
+  /advertising/browseNodes/{nodeId}:
+    get:
+      tags:
+      - advertising
+      summary: Get browse node hierarchy from Amazon
+      description: Return BrowseNodes Hierarchy
+      operationId: "getAdvertisingBrowseNode"
+      produces:
+      - "application/json"
+      parameters:
+      - name: nodeId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/GetAdvertisingBrowseNodesResponse"
+        400:
+          description: Invalid input
+        404:
+          description: Advertising not found
+
+  /advertising/browseNodes/{nodeId}/topSellers:
+    get:
+      tags:
+      - advertising
+      summary: Get 10 top sellers within a specified browse node from Amazon
+      description: Return 10 top sellers
+      operationId: "getAdvertisingBrowseNodeTopSellers"
+      produces:
+      - "application/json"
+      parameters:
+      - name: nodeId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/GetAdvertisingBrowseNodesTopSellersResponse"
+        400:
+          description: Invalid input
+        404:
+          description: Advertising not found
+
+  /mws/status:
+    get:
+      tags:
+      - mws
+      summary: Get Amazon MWS API status
+      description: Return Amazon MWS API status (GREEN/YELLOW/RED)
+      operationId: "getMwsStatus"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/GetMwsStatusResponse"
+        400:
+          description: Invalid input
+        404:
+          description: MWS not found
+
+  /mws/feeds/submit:
+    post:
+      tags:
+      - mws
+      summary: Post feed with a flat file
+      description: Uploads a feed for processing by Amazon MWS
+      operationId: "postSubmitFeed"
+      consumes:
+      - "multipart/form-data"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "file"
+        in: "formData"
+        description: "file: xxx.txt / content_type: text/tab-separated-values"
+        required: true
+        type: "file"
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PostSubmitFeedResponse'
+        400:
+          description: Invalid input
+        404:
+          description: MWS not found
+
+  /mws/feeds/submissions:
+    get:
+      tags:
+      - mws
+      summary: Get a list of feed submissions submitted
+      description: Returns a list of all feed submissions submitted in the previous 90 days
+      operationId: "getMwsFeedsSubmissions"
+      produces:
+      - "application/json"
+      parameters:
+      - name: feedSubmissionIds
+        in: "query"
+        description: ""
+        required: false
+        type: array
+        items:
+          type: string
+      - name: feedTypes
+        in: "query"
+        description: ""
+        required: false
+        type: array
+        items:
+          type: string
+      - name: processingStatuses
+        in: "query"
+        description: ""
+        required: false
+        type: array
+        items:
+          type: string
+      - name: maxCount
+        in: "query"
+        description: ""
+        required: false
+        type: integer
+        format: int32
+      - name: nextToken
+        in: "query"
+        description: ""
+        required: false
+        type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/GetMwsFeedsSubmissionsResponse"
+        400:
+          description: Invalid input
+        404:
+          description: MWS not found
+
+  /mws/feeds/submissions/{feedSubmissionId}/result:
+    get:
+      tags:
+      - mws
+      summary: Get the feed processing report
+      description: Returns the feed processing report and the Content-MD5 header
+      operationId: "getMwsFeedsSubmissionsResult"
+      produces:
+      - "application/json"
+      parameters:
+      - name: feedSubmissionId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/GetMwsFeedsSubmissionsResultResponse"
+        400:
+          description: Invalid input
+        404:
+          description: MWS not found
+
+#  /mws/feeds/submissions/{submissionId}/count:
+#    get:
 
 securityDefinitions:
   api_key:
@@ -59,54 +290,166 @@ securityDefinitions:
     name: api_key
     in: header
 definitions:
-
-  SimpleImage:
+  BrowseNode:
     type: object
     properties:
-      id:
+      node_id:
         type: string
       name:
         type: string
-      product_id:
+  TopItem:
+    type: object
+    properties:
+      asin:
         type: string
-      host_code:
+      title:
         type: string
-      host_url:
+      detail_page_url:
         type: string
-      host_name:
+      product_group:
         type: string
-      class_code:
+  Attr:
+    type: object
+    properties:
+      attr_code:
         type: string
-        example: ""
-      cate:
+      value:
+        type: string
+  SubAttr:
+    type: object
+    properties:
+      sub_attr_code:
+        type: string
+      value:
+        type: string
+      text:
+        type: string
+  FeedSubmissionInfo:
+    type: object
+    properties:
+      feed_submission_id:
+        type: string
+      feed_processing_status:
+        type: string
+      feed_type:
+        type: string
+
+  GetProductsStatusResponse:
+    type: object
+    properties:
+      message:
+        type: string
+  GetProductsBrowseNodeAttributesResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      data:
         type: array
         items:
-          type: string
-      tags:
+          type: object
+          properties:
+            attr:
+              $ref: '#/definitions/Attr'
+            sub_attrs:
+              type: array
+              items:
+                $ref: '#/definitions/SubAttr'
+  GetProductsBrowseNodeValidValueResponse:
+    type: object
+    properties:
+      message:
         type: string
-        items:
-          type: string
-      price:
-        type: integer
-        format: int32
-      currency_unit:
-        type: string
-      product_url:
-        type: string
-      product_no:
-        type: string
-      nation:
-        type: string
-      main_image_mobile_full:
-        type: string
-        description: "Mobile full size of image url"
-      main_image_mobile_thumb:
-        type: string
-        description: "Mobile thumbnail size of image url"
-      version:
-        type: string
+      data:
+        type: object
+        properties:
+          valid_value:
+            type: string
 
+  GetAdvertisingStatusResponse:
+    type: object
+    properties:
+      message:
+        type: string
+  GetAdvertisingBrowseNodesResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      data:
+        type: object
+        properties:
+          node_id:
+            type: string
+          name:
+            type: string
+          children:
+            type: array
+            items:
+              $ref: '#/definitions/BrowseNode'
+          ancestors:
+            type: array
+            items:
+              $ref: '#/definitions/BrowseNode'
+  GetAdvertisingBrowseNodesTopSellersResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      data:
+        type: object
+        properties:
+          node_id:
+            type: string
+          name:
+            type: string
+          top_items:
+            type: array
+            items:
+              $ref: '#/definitions/TopItem'
+
+  GetMwsStatusResponse:
+    type: object
+    properties:
+      message:
+        type: string
+  PostSubmitFeedResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      data:
+        type: object
+        properties:
+          feed_submission_info:
+            $ref: '#/definitions/FeedSubmissionInfo'
+  GetMwsFeedsSubmissionsResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      data:
+        type: object
+        properties:
+          feed_submission_info:
+            type: array
+            items:
+              $ref: '#/definitions/FeedSubmissionInfo'
+          has_next:
+            type: string
+          next_token:
+            type: string
+  GetMwsFeedsSubmissionsResultResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      data:
+        type: object
+        properties:
+          result:
+            type: string
 
 externalDocs:
-  description: Find out more about BlueLens
-  url: 'http://bluelens.io'
+  description: Find out more about Bluehack Inc.
+  url: 'http://bluehack.net'

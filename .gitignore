@@ -212,3 +212,5 @@ kubernetes/config-dev.yaml
 tmp.jpg
 img.jpg
 file.jpg
+
+Dockerfile
