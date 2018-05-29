@@ -642,7 +642,7 @@ definitions:
       data:
         type: object
         properties:
-          titles:
+          words:
             type: array
             items:
               type: string
