@@ -19,11 +19,13 @@ class TestToolController(BaseTestCase):
     def test_get_dictionary_words(self):
         """Test case for get_dictionary_words
 
-        Get dictionary words for filtering within a specified browse node
+        Get dictionary words for filtering within specified browse nodes
         """
+        query_string = [('nodeIds', 'nodeIds_example')]
         response = self.client.open(
-            '//tool/dictionary/words/{nodeId}'.format(nodeId='nodeId_example'),
-            method='GET')
+            '//tool/dictionary/words',
+            method='GET',
+            query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 

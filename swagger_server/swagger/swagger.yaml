@@ -317,18 +317,50 @@ paths:
         404:
           description: "Titles not found"
       x-swagger-router-controller: "swagger_server.controllers.tool_controller"
-  /tool/dictionary/words/{nodeId}:
+  /tool/dictionary/words:
     get:
       tags:
       - "tool"
-      summary: "Get dictionary words for filtering within a specified browse node"
+      summary: "Get dictionary words for filtering within specified browse nodes"
       description: "Return Dictionary Words for filtering ingredients"
       operationId: "get_dictionary_words"
       produces:
       - "application/json"
       parameters:
-      - name: "nodeId"
-        in: "path"
+      - name: "nodeIds"
+        in: "query"
+        description: ""
+        required: true
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/GetDictionaryWordsResponse"
+        400:
+          description: "Invalid input"
+        404:
+          description: "Dictionary not found"
+      x-swagger-router-controller: "swagger_server.controllers.tool_controller"
+    post:
+      tags:
+      - "tool"
+      summary: "Add filtering word to dictionary"
+      description: "Add to dictionary"
+      operationId: "post_dictionary_words"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "subAttrId"
+        in: "query"
+        description: ""
+        required: true
+        type: "string"
+      - name: "word"
+        in: "query"
         description: ""
         required: true
         type: "string"
@@ -336,7 +368,7 @@ paths:
         200:
           description: "successful operation"
           schema:
-            $ref: "#/definitions/GetDictionaryWordsResponse"
+            $ref: "#/definitions/PostDictionaryWordsResponse"
         400:
           description: "Invalid input"
         404:
@@ -370,36 +402,6 @@ paths:
           description: "successful operation"
           schema:
             $ref: "#/definitions/GetDictionaryWordsFilteredResponse"
-        400:
-          description: "Invalid input"
-        404:
-          description: "Dictionary not found"
-      x-swagger-router-controller: "swagger_server.controllers.tool_controller"
-  /tool/dictionary/words:
-    post:
-      tags:
-      - "tool"
-      summary: "Add filtering word to dictionary"
-      description: "Add to dictionary"
-      operationId: "post_dictionary_words"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "subAttrId"
-        in: "query"
-        description: ""
-        required: true
-        type: "string"
-      - name: "word"
-        in: "query"
-        description: ""
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/PostDictionaryWordsResponse"
         400:
           description: "Invalid input"
         404:
@@ -698,12 +700,12 @@ definitions:
       message:
         type: "string"
       data:
-        $ref: "#/definitions/GetToolTitlesResponse_data"
+        $ref: "#/definitions/GetDictionaryWordsResponse_data"
     example:
       data:
-        titles:
-        - "titles"
-        - "titles"
+        words:
+        - "words"
+        - "words"
       message: "message"
   GetDictionaryWordsFilteredResponse:
     type: "object"
@@ -853,6 +855,16 @@ definitions:
       titles:
       - "titles"
       - "titles"
+  GetDictionaryWordsResponse_data:
+    properties:
+      words:
+        type: "array"
+        items:
+          type: "string"
+    example:
+      words:
+      - "words"
+      - "words"
   GetDictionaryWordsFilteredResponse_data_words:
     properties:
       text:

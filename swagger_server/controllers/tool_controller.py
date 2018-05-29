@@ -10,7 +10,7 @@ import six
 
 from controller.tool import Tool
 
-def get_dictionary_words(nodeId):  # noqa: E501
+def get_dictionary_words(nodeIds):  # noqa: E501
     """Get dictionary words for filtering within a specified browse node
 
     Return Dictionary Words for filtering ingredients # noqa: E501
@@ -20,7 +20,7 @@ def get_dictionary_words(nodeId):  # noqa: E501
 
     :rtype: GetDictionaryWordsResponse
     """
-    return Tool.get_dictionary_words(nodeId=nodeId)
+    return Tool.get_dictionary_words(nodeIds=nodeIds)
 
 
 def get_dictionary_words_filtered(nodeId, filters):  # noqa: E501
