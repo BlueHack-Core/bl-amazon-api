@@ -311,18 +311,49 @@ paths:
         404:
           description: Titles not found
 
-  /tool/dictionary/words/{nodeId}:
+  /tool/dictionary/words:
     get:
       tags:
       - tool
-      summary: Get dictionary words for filtering within a specified browse node
+      summary: Get dictionary words for filtering within specified browse nodes
       description: Return Dictionary Words for filtering ingredients
       operationId: "getDictionaryWords"
       produces:
       - "application/json"
       parameters:
-      - name: nodeId
-        in: "path"
+      - name: nodeIds
+        in: "query"
+        description: ""
+        required: true
+        type: array
+        items:
+          type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/GetDictionaryWordsResponse"
+        400:
+          description: Invalid input
+        404:
+          description: Dictionary not found
+
+    post:
+      tags:
+      - tool
+      summary: Add filtering word to dictionary
+      description: Add to dictionary
+      operationId: "postDictionaryWords"
+      produces:
+      - "application/json"
+      parameters:
+      - name: subAttrId
+        in: "query"
+        description: ""
+        required: true
+        type: string
+      - name: word
+        in: "query"
         description: ""
         required: true
         type: string
@@ -330,7 +361,7 @@ paths:
         200:
           description: successful operation
           schema:
-            $ref: "#/definitions/GetDictionaryWordsResponse"
+            $ref: "#/definitions/PostDictionaryWordsResponse"
         400:
           description: Invalid input
         404:
@@ -363,36 +394,6 @@ paths:
           description: successful operation
           schema:
             $ref: "#/definitions/GetDictionaryWordsFilteredResponse"
-        400:
-          description: Invalid input
-        404:
-          description: Dictionary not found
-
-  /tool/dictionary/words:
-    post:
-      tags:
-      - tool
-      summary: Add filtering word to dictionary
-      description: Add to dictionary
-      operationId: "postDictionaryWords"
-      produces:
-      - "application/json"
-      parameters:
-      - name: subAttrId
-        in: "query"
-        description: ""
-        required: true
-        type: string
-      - name: word
-        in: "query"
-        description: ""
-        required: true
-        type: string
-      responses:
-        200:
-          description: successful operation
-          schema:
-            $ref: "#/definitions/PostDictionaryWordsResponse"
         400:
           description: Invalid input
         404:
