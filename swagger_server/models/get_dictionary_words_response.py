@@ -6,7 +6,7 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from swagger_server.models.base_model_ import Model
-from swagger_server.models.get_tool_titles_response_data import GetToolTitlesResponseData  # noqa: F401,E501
+from swagger_server.models.get_dictionary_words_response_data import GetDictionaryWordsResponseData  # noqa: F401,E501
 from swagger_server import util
 
 
@@ -16,17 +16,17 @@ class GetDictionaryWordsResponse(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, message: str=None, data: GetToolTitlesResponseData=None):  # noqa: E501
+    def __init__(self, message: str=None, data: GetDictionaryWordsResponseData=None):  # noqa: E501
         """GetDictionaryWordsResponse - a model defined in Swagger
 
         :param message: The message of this GetDictionaryWordsResponse.  # noqa: E501
         :type message: str
         :param data: The data of this GetDictionaryWordsResponse.  # noqa: E501
-        :type data: GetToolTitlesResponseData
+        :type data: GetDictionaryWordsResponseData
         """
         self.swagger_types = {
             'message': str,
-            'data': GetToolTitlesResponseData
+            'data': GetDictionaryWordsResponseData
         }
 
         self.attribute_map = {
@@ -70,22 +70,22 @@ class GetDictionaryWordsResponse(Model):
         self._message = message
 
     @property
-    def data(self) -> GetToolTitlesResponseData:
+    def data(self) -> GetDictionaryWordsResponseData:
         """Gets the data of this GetDictionaryWordsResponse.
 
 
         :return: The data of this GetDictionaryWordsResponse.
-        :rtype: GetToolTitlesResponseData
+        :rtype: GetDictionaryWordsResponseData
         """
         return self._data
 
     @data.setter
-    def data(self, data: GetToolTitlesResponseData):
+    def data(self, data: GetDictionaryWordsResponseData):
         """Sets the data of this GetDictionaryWordsResponse.
 
 
         :param data: The data of this GetDictionaryWordsResponse.
-        :type data: GetToolTitlesResponseData
+        :type data: GetDictionaryWordsResponseData
         """
 
         self._data = data
