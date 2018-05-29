@@ -1,7 +1,13 @@
 from swagger_server.models.get_tool_titles_response import GetToolTitlesResponse
 from swagger_server.models.get_tool_titles_response_data import GetToolTitlesResponseData
 
+from swagger_server.models.get_dictionary_words_response import GetDictionaryWordsResponse
+from swagger_server.models.get_dictionary_words_response_data import GetDictionaryWordsResponseData
+
 from bl_db_product_amz_best.products import Products
+from bl_title_amaz.title_filter import Title_filter
+
+
 
 class Tool(object):
   def __init__(self):
@@ -39,8 +45,35 @@ class Tool(object):
     return res, response_status
 
   @staticmethod
-  def get_dictionary_words(nodeId):
-    return
+  def get_dictionary_words(nodeIds):
+    api_instance = Title_filter()
+    res = GetDictionaryWordsResponse()
+
+    try:
+      res_data = GetDictionaryWordsResponseData()
+
+      word_res = api_instance.get_title_word_dic_by_node_id(node_ids=nodeIds)
+      if word_res:
+        if len(word_res) > 0:
+          word_list = []
+          for word in word_res:
+            word_list.append(word)
+          res_data.words = word_list
+          res.data = res_data
+          res.message = 'Successful'
+          response_status = 200
+        else:
+          res.message = 'No words'
+          response_status = 400
+      else:
+        res.message = 'No words'
+        response_status = 400
+
+    except Exception as e:
+      res.message = str(e)
+      response_status = 400
+
+    return res, response_status
 
   @staticmethod
   def get_dictionary_words_filtered(nodeId, filters):
