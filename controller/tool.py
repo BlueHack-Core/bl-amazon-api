@@ -4,10 +4,14 @@ from swagger_server.models.get_tool_titles_response_data import GetToolTitlesRes
 from swagger_server.models.get_dictionary_words_response import GetDictionaryWordsResponse
 from swagger_server.models.get_dictionary_words_response_data import GetDictionaryWordsResponseData
 
+from swagger_server.models.get_dictionary_words_filtered_response import GetDictionaryWordsFilteredResponse
+from swagger_server.models.get_dictionary_words_filtered_response_data import GetDictionaryWordsFilteredResponseData
+from swagger_server.models.get_dictionary_words_filtered_response_data_words import GetDictionaryWordsFilteredResponseDataWords
+
 from bl_db_product_amz_best.products import Products
 from bl_title_amaz.title_filter import Title_filter
 
-
+from collections import Counter
 
 class Tool(object):
   def __init__(self):
@@ -77,7 +81,37 @@ class Tool(object):
 
   @staticmethod
   def get_dictionary_words_filtered(nodeId, filters):
-    return
+    api_instance = Title_filter()
+    res = GetDictionaryWordsFilteredResponse()
+
+    try:
+      res_data = GetDictionaryWordsFilteredResponseData()
+
+      filtered_titles, result_word = api_instance.filtering_titles(node_ids=[nodeId], filter_list=filters)
+      if result_word:
+        if len(result_word) > 0:
+          word_list = []
+          for k, v in result_word.most_common():
+            word = GetDictionaryWordsFilteredResponseDataWords()
+            word.text = k
+            word.count = v
+            word_list.append(word)
+          res_data.words = word_list
+          res.data = res_data
+          res.message = 'Successful'
+          response_status = 200
+        else:
+          res.message = 'No words'
+          response_status = 400
+      else:
+        res.message = 'No words'
+        response_status = 400
+
+    except Exception as e:
+      res.message = str(e)
+      response_status = 400
+
+    return res, response_status
 
   @staticmethod
   def post_dictionary_products_attrs_sub_attrs(nodeId, attrId, subAttrId, subAttrUsName, subAttrKrName, attrUsName=None, attrKrName=None):
