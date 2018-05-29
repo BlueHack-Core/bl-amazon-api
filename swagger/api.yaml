@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   description: This is an API documentation for the Bluehack Amazon Service.
-  version: 0.0.1
+  version: 0.0.2
   title: bl-amazon-api
   contact:
     email: master@bluehack.net
@@ -17,6 +17,8 @@ tags:
     description: amazon product advertising api
   - name: mws
     description: amazon mws api
+  - name: tool
+    description: best sellings dictionary tool api
 schemes:
   - http
 paths:
@@ -284,6 +286,176 @@ paths:
 #  /mws/feeds/submissions/{submissionId}/count:
 #    get:
 
+  /tool/titles/{nodeId}:
+    get:
+      tags:
+      - tool
+      summary: Get 100 amazon best selling item titles within a specified browse node
+      description: Return Titles
+      operationId: "getToolTitles"
+      produces:
+      - "application/json"
+      parameters:
+      - name: nodeId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/GetToolTitlesResponse"
+        400:
+          description: Invalid input
+        404:
+          description: Titles not found
+
+  /tool/dictionary/words/{nodeId}:
+    get:
+      tags:
+      - tool
+      summary: Get dictionary words for filtering within a specified browse node
+      description: Return Dictionary Words for filtering ingredients
+      operationId: "getDictionaryWords"
+      produces:
+      - "application/json"
+      parameters:
+      - name: nodeId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/GetDictionaryWordsResponse"
+        400:
+          description: Invalid input
+        404:
+          description: Dictionary not found
+
+  /tool/dictionary/words/{nodeId}/filtered:
+    get:
+      tags:
+      - tool
+      summary: Get filtered words within a specified browse node with filtering words
+      description: Return filtered words cloud
+      operationId: "getDictionaryWordsFiltered"
+      produces:
+      - "application/json"
+      parameters:
+      - name: nodeId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      - name: filters
+        in: "query"
+        description: ""
+        required: true
+        type: array
+        items:
+          type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/GetDictionaryWordsFilteredResponse"
+        400:
+          description: Invalid input
+        404:
+          description: Dictionary not found
+
+  /tool/dictionary/words:
+    post:
+      tags:
+      - tool
+      summary: Add filtering word to dictionary
+      description: Add to dictionary
+      operationId: "postDictionaryWords"
+      produces:
+      - "application/json"
+      parameters:
+      - name: subAttrId
+        in: "query"
+        description: ""
+        required: true
+        type: string
+      - name: word
+        in: "query"
+        description: ""
+        required: true
+        type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/PostDictionaryWordsResponse"
+        400:
+          description: Invalid input
+        404:
+          description: Dictionary not found
+
+  /tool/dictionary/products/{nodeId}/attrs/{attrId}/subAttrs:
+    post:
+      tags:
+      - tool
+      summary: Add sub attribute within a specified browse node's attribute
+      description: Add sub attribute
+      operationId: "postDictionaryProductsAttrsSubAttrs"
+      produces:
+      - "application/json"
+      parameters:
+      - name: nodeId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      - name: attrId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+
+      - name: attrUsName
+        in: "query"
+        description: "Upserting if exists"
+        required: false
+        type: string
+      - name: attrKrName
+        in: "query"
+        description: "Upserting if exists"
+        required: false
+        type: string
+
+      - name: subAttrId
+        in: "query"
+        description: ""
+        required: true
+        type: string
+      - name: subAttrUsName
+        in: "query"
+        description: ""
+        required: true
+        type: string
+      - name: subAttrKrName
+        in: "query"
+        description: ""
+        required: true
+        type: string
+
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/PostDictionaryProductsAttrsSubAttrsResponse"
+        400:
+          description: Invalid input
+        404:
+          description: Products not found
+
 securityDefinitions:
   api_key:
     type: apiKey
@@ -449,6 +621,58 @@ definitions:
         properties:
           result:
             type: string
+
+  GetToolTitlesResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      data:
+        type: object
+        properties:
+          titles:
+            type: array
+            items:
+              type: string
+  GetDictionaryWordsResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      data:
+        type: object
+        properties:
+          titles:
+            type: array
+            items:
+              type: string
+  GetDictionaryWordsFilteredResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      data:
+        type: object
+        properties:
+          words:
+            type: array
+            items:
+              type: object
+              properties:
+                text:
+                  type: string
+                count:
+                  type: string
+  PostDictionaryWordsResponse:
+    type: object
+    properties:
+      message:
+        type: string
+  PostDictionaryProductsAttrsSubAttrsResponse:
+    type: object
+    properties:
+      message:
+        type: string
 
 externalDocs:
   description: Find out more about Bluehack Inc.
