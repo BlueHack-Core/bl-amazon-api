@@ -1,5 +1,5 @@
 beautifulsoup4==4.6.0
-bl-db-product-amz-best==0.0.2
+bl-db-product-amz-best==0.0.3
 bl-product-amaz==0.0.11
 bl-title-amaz==0.0.1
 bleach==1.5.0
