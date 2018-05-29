@@ -1,13 +1,14 @@
 import connexion
 import six
 
-from swagger_server.models.get_dictionary_words_filtered_response import GetDictionaryWordsFilteredResponse  # noqa: E501
-from swagger_server.models.get_dictionary_words_response import GetDictionaryWordsResponse  # noqa: E501
-from swagger_server.models.get_tool_titles_response import GetToolTitlesResponse  # noqa: E501
-from swagger_server.models.post_dictionary_products_attrs_sub_attrs_response import PostDictionaryProductsAttrsSubAttrsResponse  # noqa: E501
-from swagger_server.models.post_dictionary_words_response import PostDictionaryWordsResponse  # noqa: E501
-from swagger_server import util
+# from swagger_server.models.get_dictionary_words_filtered_response import GetDictionaryWordsFilteredResponse  # noqa: E501
+# from swagger_server.models.get_dictionary_words_response import GetDictionaryWordsResponse  # noqa: E501
+# from swagger_server.models.get_tool_titles_response import GetToolTitlesResponse  # noqa: E501
+# from swagger_server.models.post_dictionary_products_attrs_sub_attrs_response import PostDictionaryProductsAttrsSubAttrsResponse  # noqa: E501
+# from swagger_server.models.post_dictionary_words_response import PostDictionaryWordsResponse  # noqa: E501
+# from swagger_server import util
 
+from controller.tool import Tool
 
 def get_dictionary_words(nodeId):  # noqa: E501
     """Get dictionary words for filtering within a specified browse node
@@ -19,7 +20,7 @@ def get_dictionary_words(nodeId):  # noqa: E501
 
     :rtype: GetDictionaryWordsResponse
     """
-    return 'do some magic!'
+    return Tool.get_dictionary_words(nodeId=nodeId)
 
 
 def get_dictionary_words_filtered(nodeId, filters):  # noqa: E501
@@ -34,7 +35,7 @@ def get_dictionary_words_filtered(nodeId, filters):  # noqa: E501
 
     :rtype: GetDictionaryWordsFilteredResponse
     """
-    return 'do some magic!'
+    return Tool.get_dictionary_words_filtered(nodeId=nodeId, filters=filters)
 
 
 def get_tool_titles(nodeId):  # noqa: E501
@@ -47,7 +48,7 @@ def get_tool_titles(nodeId):  # noqa: E501
 
     :rtype: GetToolTitlesResponse
     """
-    return 'do some magic!'
+    return Tool.get_tool_titles(nodeId=nodeId)
 
 
 def post_dictionary_products_attrs_sub_attrs(nodeId, attrId, subAttrId, subAttrUsName, subAttrKrName, attrUsName=None, attrKrName=None):  # noqa: E501
@@ -72,7 +73,7 @@ def post_dictionary_products_attrs_sub_attrs(nodeId, attrId, subAttrId, subAttrU
 
     :rtype: PostDictionaryProductsAttrsSubAttrsResponse
     """
-    return 'do some magic!'
+    return Tool.post_dictionary_products_attrs_sub_attrs(nodeId=nodeId, attrId=attrId, attrUsName=attrUsName, attrKrName=attrKrName, subAttrId=subAttrId, subAttrUsName=subAttrUsName, subAttrKrName=subAttrKrName)
 
 
 def post_dictionary_words(subAttrId, word):  # noqa: E501
@@ -87,4 +88,4 @@ def post_dictionary_words(subAttrId, word):  # noqa: E501
 
     :rtype: PostDictionaryWordsResponse
     """
-    return 'do some magic!'
+    return Tool.post_dictionary_words(subAttrId=subAttrId, word=word)
