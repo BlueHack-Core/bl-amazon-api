@@ -399,6 +399,46 @@ paths:
         404:
           description: Dictionary not found
 
+  /tool/dictionary/products/{nodeId}/attrs:
+    post:
+      tags:
+      - tool
+      summary: Add attribute within a specified browse node's
+      description: Add attribute
+      operationId: "postDictionaryProductsAttrs"
+      produces:
+      - "application/json"
+      parameters:
+      - name: nodeId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      - name: attrId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      - name: attrUsName
+        in: "query"
+        description: "Upserting if exists"
+        required: false
+        type: string
+      - name: attrKrName
+        in: "query"
+        description: "Upserting if exists"
+        required: false
+        type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/PostDictionaryProductsAttrsResponse"
+        400:
+          description: Invalid input
+        404:
+          description: Products not found
+
   /tool/dictionary/products/{nodeId}/attrs/{attrId}/subAttrs:
     post:
       tags:
@@ -419,18 +459,6 @@ paths:
         description: ""
         required: true
         type: string
-
-      - name: attrUsName
-        in: "query"
-        description: "Upserting if exists"
-        required: false
-        type: string
-      - name: attrKrName
-        in: "query"
-        description: "Upserting if exists"
-        required: false
-        type: string
-
       - name: subAttrId
         in: "query"
         description: ""
@@ -438,12 +466,12 @@ paths:
         type: string
       - name: subAttrUsName
         in: "query"
-        description: ""
+        description: "Upserting if exists"
         required: true
         type: string
       - name: subAttrKrName
         in: "query"
-        description: ""
+        description: "Upserting if exists"
         required: true
         type: string
 
@@ -665,6 +693,11 @@ definitions:
                 count:
                   type: string
   PostDictionaryWordsResponse:
+    type: object
+    properties:
+      message:
+        type: string
+  PostDictionaryProductsAttrsResponse:
     type: object
     properties:
       message:
