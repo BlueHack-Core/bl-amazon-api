@@ -8,6 +8,10 @@ from swagger_server.models.get_dictionary_words_filtered_response import GetDict
 from swagger_server.models.get_dictionary_words_filtered_response_data import GetDictionaryWordsFilteredResponseData
 from swagger_server.models.get_dictionary_words_filtered_response_data_words import GetDictionaryWordsFilteredResponseDataWords
 
+from swagger_server.models.post_dictionary_words_response import PostDictionaryWordsResponse
+
+from swagger_server.models.post_dictionary_products_attrs_sub_attrs_response import PostDictionaryProductsAttrsSubAttrsResponse
+
 from bl_db_product_amz_best.products import Products
 from bl_title_amaz.title_filter import Title_filter
 
@@ -119,4 +123,21 @@ class Tool(object):
 
   @staticmethod
   def post_dictionary_words(subAttrId, word):
-    return
+    api_instance = Title_filter()
+    res = PostDictionaryWordsResponse()
+
+    try:
+      word_res = api_instance.add_sub_attr_word_in_amz_title_dic(sub_attr_id=subAttrId, sub_attr_word=word)
+
+      if word_res:
+        res.message = 'Successful'
+        response_status = 200
+      else:
+        res.message = 'Failed'
+        response_status = 400
+
+    except Exception as e:
+      res.message = str(e)
+      response_status = 400
+
+    return res, response_status
