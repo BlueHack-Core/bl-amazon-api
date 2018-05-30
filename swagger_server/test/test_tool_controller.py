@@ -8,6 +8,7 @@ from six import BytesIO
 from swagger_server.models.get_dictionary_words_filtered_response import GetDictionaryWordsFilteredResponse  # noqa: E501
 from swagger_server.models.get_dictionary_words_response import GetDictionaryWordsResponse  # noqa: E501
 from swagger_server.models.get_tool_titles_response import GetToolTitlesResponse  # noqa: E501
+from swagger_server.models.post_dictionary_products_attrs_response import PostDictionaryProductsAttrsResponse  # noqa: E501
 from swagger_server.models.post_dictionary_products_attrs_sub_attrs_response import PostDictionaryProductsAttrsSubAttrsResponse  # noqa: E501
 from swagger_server.models.post_dictionary_words_response import PostDictionaryWordsResponse  # noqa: E501
 from swagger_server.test import BaseTestCase
@@ -53,14 +54,26 @@ class TestToolController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
+    def test_post_dictionary_products_attrs(self):
+        """Test case for post_dictionary_products_attrs
+
+        Add attribute within a specified browse node's
+        """
+        query_string = [('attrUsName', 'attrUsName_example'),
+                        ('attrKrName', 'attrKrName_example')]
+        response = self.client.open(
+            '//tool/dictionary/products/{nodeId}/attrs'.format(nodeId='nodeId_example', attrId='attrId_example'),
+            method='POST',
+            query_string=query_string)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
     def test_post_dictionary_products_attrs_sub_attrs(self):
         """Test case for post_dictionary_products_attrs_sub_attrs
 
         Add sub attribute within a specified browse node's attribute
         """
-        query_string = [('attrUsName', 'attrUsName_example'),
-                        ('attrKrName', 'attrKrName_example'),
-                        ('subAttrId', 'subAttrId_example'),
+        query_string = [('subAttrId', 'subAttrId_example'),
                         ('subAttrUsName', 'subAttrUsName_example'),
                         ('subAttrKrName', 'subAttrKrName_example')]
         response = self.client.open(

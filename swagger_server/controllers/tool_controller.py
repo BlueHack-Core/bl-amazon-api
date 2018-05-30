@@ -51,29 +51,45 @@ def get_tool_titles(nodeId):  # noqa: E501
     return Tool.get_tool_titles(nodeId=nodeId)
 
 
-def post_dictionary_products_attrs_sub_attrs(nodeId, attrId, subAttrId, subAttrUsName, subAttrKrName, attrUsName=None, attrKrName=None):  # noqa: E501
-    """Add sub attribute within a specified browse node&#39;s attribute
+def post_dictionary_products_attrs(nodeId, attrId, attrUsName, attrKrName):  # noqa: E501
+    """Add attribute within a specified browse node&#39;s
 
-    Add sub attribute # noqa: E501
+    Add attribute # noqa: E501
 
-    :param nodeId: 
+    :param nodeId:
     :type nodeId: str
-    :param attrId: 
+    :param attrId:
     :type attrId: str
-    :param subAttrId: 
-    :type subAttrId: str
-    :param subAttrUsName: 
-    :type subAttrUsName: str
-    :param subAttrKrName: 
-    :type subAttrKrName: str
     :param attrUsName: Upserting if exists
     :type attrUsName: str
     :param attrKrName: Upserting if exists
     :type attrKrName: str
 
+    :rtype: PostDictionaryProductsAttrsResponse
+    """
+    return Tool.post_dictionary_products_attrs(nodeId=nodeId, attrId=attrId, attrUsName=attrUsName, attrKrName=attrKrName)
+
+
+def post_dictionary_products_attrs_sub_attrs(nodeId, attrId, subAttrId, subAttrUsName, subAttrKrName):  # noqa: E501
+    """Add sub attribute within a specified browse node&#39;s attribute
+
+    Add sub attribute # noqa: E501
+
+    :param nodeId:
+    :type nodeId: str
+    :param attrId:
+    :type attrId: str
+    :param subAttrId:
+    :type subAttrId: str
+    :param subAttrUsName: Upserting if exists
+    :type subAttrUsName: str
+    :param subAttrKrName: Upserting if exists
+    :type subAttrKrName: str
+
     :rtype: PostDictionaryProductsAttrsSubAttrsResponse
     """
-    return Tool.post_dictionary_products_attrs_sub_attrs(nodeId=nodeId, attrId=attrId, attrUsName=attrUsName, attrKrName=attrKrName, subAttrId=subAttrId, subAttrUsName=subAttrUsName, subAttrKrName=subAttrKrName)
+    return Tool.post_dictionary_products_attrs_sub_attrs(nodeId=nodeId, attrId=attrId,
+                                                         subAttrId=subAttrId, subAttrUsName=subAttrUsName, subAttrKrName=subAttrKrName)
 
 
 def post_dictionary_words(subAttrId, word):  # noqa: E501

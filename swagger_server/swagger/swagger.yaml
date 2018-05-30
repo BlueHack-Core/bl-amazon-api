@@ -407,13 +407,13 @@ paths:
         404:
           description: "Dictionary not found"
       x-swagger-router-controller: "swagger_server.controllers.tool_controller"
-  /tool/dictionary/products/{nodeId}/attrs/{attrId}/subAttrs:
+  /tool/dictionary/products/{nodeId}/attrs:
     post:
       tags:
       - "tool"
-      summary: "Add sub attribute within a specified browse node's attribute"
-      description: "Add sub attribute"
-      operationId: "post_dictionary_products_attrs_sub_attrs"
+      summary: "Add attribute within a specified browse node's"
+      description: "Add attribute"
+      operationId: "post_dictionary_products_attrs"
       produces:
       - "application/json"
       parameters:
@@ -437,6 +437,36 @@ paths:
         description: "Upserting if exists"
         required: false
         type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/PostDictionaryProductsAttrsResponse"
+        400:
+          description: "Invalid input"
+        404:
+          description: "Products not found"
+      x-swagger-router-controller: "swagger_server.controllers.tool_controller"
+  /tool/dictionary/products/{nodeId}/attrs/{attrId}/subAttrs:
+    post:
+      tags:
+      - "tool"
+      summary: "Add sub attribute within a specified browse node's attribute"
+      description: "Add sub attribute"
+      operationId: "post_dictionary_products_attrs_sub_attrs"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nodeId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "attrId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
       - name: "subAttrId"
         in: "query"
         description: ""
@@ -444,12 +474,12 @@ paths:
         type: "string"
       - name: "subAttrUsName"
         in: "query"
-        description: ""
+        description: "Upserting if exists"
         required: true
         type: "string"
       - name: "subAttrKrName"
         in: "query"
-        description: ""
+        description: "Upserting if exists"
         required: true
         type: "string"
       responses:
@@ -723,6 +753,13 @@ definitions:
           text: "text"
       message: "message"
   PostDictionaryWordsResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+    example:
+      message: "message"
+  PostDictionaryProductsAttrsResponse:
     type: "object"
     properties:
       message:
