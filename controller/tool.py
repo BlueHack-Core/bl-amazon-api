@@ -10,6 +10,8 @@ from swagger_server.models.get_dictionary_words_filtered_response_data_words imp
 
 from swagger_server.models.post_dictionary_words_response import PostDictionaryWordsResponse
 
+from swagger_server.models.post_dictionary_products_attrs_response import PostDictionaryProductsAttrsResponse
+
 from swagger_server.models.post_dictionary_products_attrs_sub_attrs_response import PostDictionaryProductsAttrsSubAttrsResponse
 
 from bl_db_product_amz_best.products import Products
@@ -118,7 +120,32 @@ class Tool(object):
     return res, response_status
 
   @staticmethod
-  def post_dictionary_products_attrs_sub_attrs(nodeId, attrId, subAttrId, subAttrUsName, subAttrKrName, attrUsName=None, attrKrName=None):
+  def post_dictionary_products_attrs(nodeId, attrId, attrUsName, attrKrName):
+    api_instance = Title_filter()
+    res = PostDictionaryProductsAttrsResponse()
+
+    try:
+      attrs_res = api_instance.add_sub_attr_in_amz_sub_attrs(node_id=nodeId,
+                                                             attr_id=attrId, attr_kr_name=attrKrName, attr_us_name=attrUsName,
+                                                             sub_attr_id=None,
+                                                             sub_attr_kr_name=None,
+                                                             sub_attr_us_name=None)
+
+      if attrs_res:
+        res.message = 'Successful'
+        response_status = 200
+      else:
+        res.message = 'Add attr Failed'
+        response_status = 400
+
+    except Exception as e:
+      res.message = str(e)
+      response_status = 400
+
+    return res, response_status
+
+  @staticmethod
+  def post_dictionary_products_attrs_sub_attrs(nodeId, attrId, subAttrId, subAttrUsName, subAttrKrName):
     return
 
   @staticmethod
@@ -133,7 +160,7 @@ class Tool(object):
         res.message = 'Successful'
         response_status = 200
       else:
-        res.message = 'Failed'
+        res.message = 'Add words Failed'
         response_status = 400
 
     except Exception as e:
