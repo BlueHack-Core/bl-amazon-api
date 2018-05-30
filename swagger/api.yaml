@@ -415,7 +415,7 @@ paths:
         required: true
         type: string
       - name: attrId
-        in: "path"
+        in: "query"
         description: ""
         required: true
         type: string

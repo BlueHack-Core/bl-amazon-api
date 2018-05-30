@@ -423,19 +423,19 @@ paths:
         required: true
         type: "string"
       - name: "attrId"
-        in: "path"
+        in: "query"
         description: ""
         required: true
         type: "string"
       - name: "attrUsName"
         in: "query"
         description: "Upserting if exists"
-        required: false
+        required: true
         type: "string"
       - name: "attrKrName"
         in: "query"
         description: "Upserting if exists"
-        required: false
+        required: true
         type: "string"
       responses:
         200:

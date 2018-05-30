@@ -59,10 +59,11 @@ class TestToolController(BaseTestCase):
 
         Add attribute within a specified browse node's
         """
-        query_string = [('attrUsName', 'attrUsName_example'),
+        query_string = [('attrId', 'attrId_example'),
+                        ('attrUsName', 'attrUsName_example'),
                         ('attrKrName', 'attrKrName_example')]
         response = self.client.open(
-            '//tool/dictionary/products/{nodeId}/attrs'.format(nodeId='nodeId_example', attrId='attrId_example'),
+            '//tool/dictionary/products/{nodeId}/attrs'.format(nodeId='nodeId_example'),
             method='POST',
             query_string=query_string)
         self.assert200(response,
