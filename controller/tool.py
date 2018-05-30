@@ -146,7 +146,28 @@ class Tool(object):
 
   @staticmethod
   def post_dictionary_products_attrs_sub_attrs(nodeId, attrId, subAttrId, subAttrUsName, subAttrKrName):
-    return
+    api_instance = Title_filter()
+    res = PostDictionaryProductsAttrsSubAttrsResponse()
+
+    try:
+      sub_attrs_res = api_instance.add_sub_attr_in_amz_sub_attrs(node_id=nodeId,
+                                                                 attr_id=attrId,
+                                                                 sub_attr_id=subAttrId, sub_attr_kr_name=subAttrKrName, sub_attr_us_name=subAttrUsName,
+                                                                 attr_kr_name=None,
+                                                                 attr_us_name=None)
+
+      if sub_attrs_res:
+        res.message = 'Successful'
+        response_status = 200
+      else:
+        res.message = 'Add sub attr Failed'
+        response_status = 400
+
+    except Exception as e:
+      res.message = str(e)
+      response_status = 400
+
+    return res, response_status
 
   @staticmethod
   def post_dictionary_words(subAttrId, word):
