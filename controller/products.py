@@ -25,7 +25,7 @@ class Products(object):
       us_btgs_api = US_btgs()
       attrs_api = AMZ_attrs()
 
-      us_btgs_res = us_btgs_api.get_attrs_by_node_id(nodeId, offset=0, limit=50)
+      us_btgs_res = us_btgs_api.get_attrs_by_node_id(nodeId)
       if us_btgs_res:
         for attr in us_btgs_res:
           for key, value in attr.items():
@@ -37,7 +37,7 @@ class Products(object):
             res_data.attr = attr_instance
 
             if key:
-              attrs_res = attrs_api.get_sub_attr_by_attr_code(key, offset=0, limit=50)
+              attrs_res = attrs_api.get_sub_attr_by_attr_code(key)
               sub_attr_list = []
               for sub_attr in attrs_res:
                 sub_attr_instance = SubAttr()
