@@ -37,7 +37,7 @@ class Products(object):
             res_data.attr = attr_instance
 
             if key:
-              attrs_res = attrs_api.get_sub_attr_by_attr_code(key)
+              attrs_res = attrs_api.get_sub_attr_by_sub_attr_id(key)
               sub_attr_list = []
               for sub_attr in attrs_res:
                 sub_attr_instance = SubAttr()
