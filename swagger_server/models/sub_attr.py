@@ -15,31 +15,31 @@ class SubAttr(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, sub_attr_code: str=None, value: str=None, text: str=None):  # noqa: E501
+    def __init__(self, sub_attr_id: str=None, sub_attr_us_name: str=None, sub_attr_kr_name: str=None):  # noqa: E501
         """SubAttr - a model defined in Swagger
 
-        :param sub_attr_code: The sub_attr_code of this SubAttr.  # noqa: E501
-        :type sub_attr_code: str
-        :param value: The value of this SubAttr.  # noqa: E501
-        :type value: str
-        :param text: The text of this SubAttr.  # noqa: E501
-        :type text: str
+        :param sub_attr_id: The sub_attr_id of this SubAttr.  # noqa: E501
+        :type sub_attr_id: str
+        :param sub_attr_us_name: The sub_attr_us_name of this SubAttr.  # noqa: E501
+        :type sub_attr_us_name: str
+        :param sub_attr_kr_name: The sub_attr_kr_name of this SubAttr.  # noqa: E501
+        :type sub_attr_kr_name: str
         """
         self.swagger_types = {
-            'sub_attr_code': str,
-            'value': str,
-            'text': str
+            'sub_attr_id': str,
+            'sub_attr_us_name': str,
+            'sub_attr_kr_name': str
         }
 
         self.attribute_map = {
-            'sub_attr_code': 'sub_attr_code',
-            'value': 'value',
-            'text': 'text'
+            'sub_attr_id': 'sub_attr_id',
+            'sub_attr_us_name': 'sub_attr_us_name',
+            'sub_attr_kr_name': 'sub_attr_kr_name'
         }
 
-        self._sub_attr_code = sub_attr_code
-        self._value = value
-        self._text = text
+        self._sub_attr_id = sub_attr_id
+        self._sub_attr_us_name = sub_attr_us_name
+        self._sub_attr_kr_name = sub_attr_kr_name
 
     @classmethod
     def from_dict(cls, dikt) -> 'SubAttr':
@@ -53,64 +53,64 @@ class SubAttr(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def sub_attr_code(self) -> str:
-        """Gets the sub_attr_code of this SubAttr.
+    def sub_attr_id(self) -> str:
+        """Gets the sub_attr_id of this SubAttr.
 
 
-        :return: The sub_attr_code of this SubAttr.
+        :return: The sub_attr_id of this SubAttr.
         :rtype: str
         """
-        return self._sub_attr_code
+        return self._sub_attr_id
 
-    @sub_attr_code.setter
-    def sub_attr_code(self, sub_attr_code: str):
-        """Sets the sub_attr_code of this SubAttr.
+    @sub_attr_id.setter
+    def sub_attr_id(self, sub_attr_id: str):
+        """Sets the sub_attr_id of this SubAttr.
 
 
-        :param sub_attr_code: The sub_attr_code of this SubAttr.
-        :type sub_attr_code: str
+        :param sub_attr_id: The sub_attr_id of this SubAttr.
+        :type sub_attr_id: str
         """
 
-        self._sub_attr_code = sub_attr_code
+        self._sub_attr_id = sub_attr_id
 
     @property
-    def value(self) -> str:
-        """Gets the value of this SubAttr.
+    def sub_attr_us_name(self) -> str:
+        """Gets the sub_attr_us_name of this SubAttr.
 
 
-        :return: The value of this SubAttr.
+        :return: The sub_attr_us_name of this SubAttr.
         :rtype: str
         """
-        return self._value
+        return self._sub_attr_us_name
 
-    @value.setter
-    def value(self, value: str):
-        """Sets the value of this SubAttr.
+    @sub_attr_us_name.setter
+    def sub_attr_us_name(self, sub_attr_us_name: str):
+        """Sets the sub_attr_us_name of this SubAttr.
 
 
-        :param value: The value of this SubAttr.
-        :type value: str
+        :param sub_attr_us_name: The sub_attr_us_name of this SubAttr.
+        :type sub_attr_us_name: str
         """
 
-        self._value = value
+        self._sub_attr_us_name = sub_attr_us_name
 
     @property
-    def text(self) -> str:
-        """Gets the text of this SubAttr.
+    def sub_attr_kr_name(self) -> str:
+        """Gets the sub_attr_kr_name of this SubAttr.
 
 
-        :return: The text of this SubAttr.
+        :return: The sub_attr_kr_name of this SubAttr.
         :rtype: str
         """
-        return self._text
+        return self._sub_attr_kr_name
 
-    @text.setter
-    def text(self, text: str):
-        """Sets the text of this SubAttr.
+    @sub_attr_kr_name.setter
+    def sub_attr_kr_name(self, sub_attr_kr_name: str):
+        """Sets the sub_attr_kr_name of this SubAttr.
 
 
-        :param text: The text of this SubAttr.
-        :type text: str
+        :param sub_attr_kr_name: The sub_attr_kr_name of this SubAttr.
+        :type sub_attr_kr_name: str
         """
 
-        self._text = text
+        self._sub_attr_kr_name = sub_attr_kr_name

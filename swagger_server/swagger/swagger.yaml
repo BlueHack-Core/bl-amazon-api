@@ -527,26 +527,29 @@ definitions:
   Attr:
     type: "object"
     properties:
-      attr_code:
+      attr_id:
         type: "string"
-      value:
+      attr_us_name:
+        type: "string"
+      attr_kr_name:
         type: "string"
     example:
-      attr_code: "attr_code"
-      value: "value"
+      attr_kr_name: "attr_kr_name"
+      attr_us_name: "attr_us_name"
+      attr_id: "attr_id"
   SubAttr:
     type: "object"
     properties:
-      sub_attr_code:
+      sub_attr_id:
         type: "string"
-      value:
+      sub_attr_us_name:
         type: "string"
-      text:
+      sub_attr_kr_name:
         type: "string"
     example:
-      sub_attr_code: "sub_attr_code"
-      text: "text"
-      value: "value"
+      sub_attr_kr_name: "sub_attr_kr_name"
+      sub_attr_us_name: "sub_attr_us_name"
+      sub_attr_id: "sub_attr_id"
   FeedSubmissionInfo:
     type: "object"
     properties:
@@ -579,25 +582,27 @@ definitions:
     example:
       data:
       - sub_attrs:
-        - sub_attr_code: "sub_attr_code"
-          text: "text"
-          value: "value"
-        - sub_attr_code: "sub_attr_code"
-          text: "text"
-          value: "value"
+        - sub_attr_kr_name: "sub_attr_kr_name"
+          sub_attr_us_name: "sub_attr_us_name"
+          sub_attr_id: "sub_attr_id"
+        - sub_attr_kr_name: "sub_attr_kr_name"
+          sub_attr_us_name: "sub_attr_us_name"
+          sub_attr_id: "sub_attr_id"
         attr:
-          attr_code: "attr_code"
-          value: "value"
+          attr_kr_name: "attr_kr_name"
+          attr_us_name: "attr_us_name"
+          attr_id: "attr_id"
       - sub_attrs:
-        - sub_attr_code: "sub_attr_code"
-          text: "text"
-          value: "value"
-        - sub_attr_code: "sub_attr_code"
-          text: "text"
-          value: "value"
+        - sub_attr_kr_name: "sub_attr_kr_name"
+          sub_attr_us_name: "sub_attr_us_name"
+          sub_attr_id: "sub_attr_id"
+        - sub_attr_kr_name: "sub_attr_kr_name"
+          sub_attr_us_name: "sub_attr_us_name"
+          sub_attr_id: "sub_attr_id"
         attr:
-          attr_code: "attr_code"
-          value: "value"
+          attr_kr_name: "attr_kr_name"
+          attr_us_name: "attr_us_name"
+          attr_id: "attr_id"
       message: "message"
   GetProductsBrowseNodeValidValueResponse:
     type: "object"
@@ -783,15 +788,16 @@ definitions:
           $ref: "#/definitions/SubAttr"
     example:
       sub_attrs:
-      - sub_attr_code: "sub_attr_code"
-        text: "text"
-        value: "value"
-      - sub_attr_code: "sub_attr_code"
-        text: "text"
-        value: "value"
+      - sub_attr_kr_name: "sub_attr_kr_name"
+        sub_attr_us_name: "sub_attr_us_name"
+        sub_attr_id: "sub_attr_id"
+      - sub_attr_kr_name: "sub_attr_kr_name"
+        sub_attr_us_name: "sub_attr_us_name"
+        sub_attr_id: "sub_attr_id"
       attr:
-        attr_code: "attr_code"
-        value: "value"
+        attr_kr_name: "attr_kr_name"
+        attr_us_name: "attr_us_name"
+        attr_id: "attr_id"
   GetProductsBrowseNodeValidValueResponse_data:
     properties:
       valid_value:

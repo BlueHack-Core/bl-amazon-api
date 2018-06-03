@@ -15,26 +15,31 @@ class Attr(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, attr_code: str=None, value: str=None):  # noqa: E501
+    def __init__(self, attr_id: str=None, attr_us_name: str=None, attr_kr_name: str=None):  # noqa: E501
         """Attr - a model defined in Swagger
 
-        :param attr_code: The attr_code of this Attr.  # noqa: E501
-        :type attr_code: str
-        :param value: The value of this Attr.  # noqa: E501
-        :type value: str
+        :param attr_id: The attr_id of this Attr.  # noqa: E501
+        :type attr_id: str
+        :param attr_us_name: The attr_us_name of this Attr.  # noqa: E501
+        :type attr_us_name: str
+        :param attr_kr_name: The attr_kr_name of this Attr.  # noqa: E501
+        :type attr_kr_name: str
         """
         self.swagger_types = {
-            'attr_code': str,
-            'value': str
+            'attr_id': str,
+            'attr_us_name': str,
+            'attr_kr_name': str
         }
 
         self.attribute_map = {
-            'attr_code': 'attr_code',
-            'value': 'value'
+            'attr_id': 'attr_id',
+            'attr_us_name': 'attr_us_name',
+            'attr_kr_name': 'attr_kr_name'
         }
 
-        self._attr_code = attr_code
-        self._value = value
+        self._attr_id = attr_id
+        self._attr_us_name = attr_us_name
+        self._attr_kr_name = attr_kr_name
 
     @classmethod
     def from_dict(cls, dikt) -> 'Attr':
@@ -48,43 +53,64 @@ class Attr(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def attr_code(self) -> str:
-        """Gets the attr_code of this Attr.
+    def attr_id(self) -> str:
+        """Gets the attr_id of this Attr.
 
 
-        :return: The attr_code of this Attr.
+        :return: The attr_id of this Attr.
         :rtype: str
         """
-        return self._attr_code
+        return self._attr_id
 
-    @attr_code.setter
-    def attr_code(self, attr_code: str):
-        """Sets the attr_code of this Attr.
+    @attr_id.setter
+    def attr_id(self, attr_id: str):
+        """Sets the attr_id of this Attr.
 
 
-        :param attr_code: The attr_code of this Attr.
-        :type attr_code: str
+        :param attr_id: The attr_id of this Attr.
+        :type attr_id: str
         """
 
-        self._attr_code = attr_code
+        self._attr_id = attr_id
 
     @property
-    def value(self) -> str:
-        """Gets the value of this Attr.
+    def attr_us_name(self) -> str:
+        """Gets the attr_us_name of this Attr.
 
 
-        :return: The value of this Attr.
+        :return: The attr_us_name of this Attr.
         :rtype: str
         """
-        return self._value
+        return self._attr_us_name
 
-    @value.setter
-    def value(self, value: str):
-        """Sets the value of this Attr.
+    @attr_us_name.setter
+    def attr_us_name(self, attr_us_name: str):
+        """Sets the attr_us_name of this Attr.
 
 
-        :param value: The value of this Attr.
-        :type value: str
+        :param attr_us_name: The attr_us_name of this Attr.
+        :type attr_us_name: str
         """
 
-        self._value = value
+        self._attr_us_name = attr_us_name
+
+    @property
+    def attr_kr_name(self) -> str:
+        """Gets the attr_kr_name of this Attr.
+
+
+        :return: The attr_kr_name of this Attr.
+        :rtype: str
+        """
+        return self._attr_kr_name
+
+    @attr_kr_name.setter
+    def attr_kr_name(self, attr_kr_name: str):
+        """Sets the attr_kr_name of this Attr.
+
+
+        :param attr_kr_name: The attr_kr_name of this Attr.
+        :type attr_kr_name: str
+        """
+
+        self._attr_kr_name = attr_kr_name
