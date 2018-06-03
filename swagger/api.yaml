@@ -512,18 +512,20 @@ definitions:
   Attr:
     type: object
     properties:
-      attr_code:
+      attr_id:
         type: string
-      value:
+      attr_us_name:
+        type: string
+      attr_kr_name:
         type: string
   SubAttr:
     type: object
     properties:
-      sub_attr_code:
+      sub_attr_id:
         type: string
-      value:
+      sub_attr_us_name:
         type: string
-      text:
+      sub_attr_kr_name:
         type: string
   FeedSubmissionInfo:
     type: object
