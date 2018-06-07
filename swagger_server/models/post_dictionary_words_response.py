@@ -15,21 +15,26 @@ class PostDictionaryWordsResponse(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, message: str=None):  # noqa: E501
+    def __init__(self, message: str=None, data: str=None):  # noqa: E501
         """PostDictionaryWordsResponse - a model defined in Swagger
 
         :param message: The message of this PostDictionaryWordsResponse.  # noqa: E501
         :type message: str
+        :param data: The data of this PostDictionaryWordsResponse.  # noqa: E501
+        :type data: str
         """
         self.swagger_types = {
-            'message': str
+            'message': str,
+            'data': str
         }
 
         self.attribute_map = {
-            'message': 'message'
+            'message': 'message',
+            'data': 'data'
         }
 
         self._message = message
+        self._data = data
 
     @classmethod
     def from_dict(cls, dikt) -> 'PostDictionaryWordsResponse':
@@ -62,3 +67,24 @@ class PostDictionaryWordsResponse(Model):
         """
 
         self._message = message
+
+    @property
+    def data(self) -> str:
+        """Gets the data of this PostDictionaryWordsResponse.
+
+
+        :return: The data of this PostDictionaryWordsResponse.
+        :rtype: str
+        """
+        return self._data
+
+    @data.setter
+    def data(self, data: str):
+        """Sets the data of this PostDictionaryWordsResponse.
+
+
+        :param data: The data of this PostDictionaryWordsResponse.
+        :type data: str
+        """
+
+        self._data = data
