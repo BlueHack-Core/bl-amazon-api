@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   description: This is an API documentation for the Bluehack Amazon Service.
-  version: 0.0.1
+  version: 0.0.7
   title: bl-amazon-api
   contact:
     email: master@bluehack.net
@@ -17,6 +17,8 @@ tags:
     description: amazon product advertising api
   - name: mws
     description: amazon mws api
+  - name: tool
+    description: best sellings dictionary tool api
 schemes:
   - http
 paths:
@@ -284,6 +286,429 @@ paths:
 #  /mws/feeds/submissions/{submissionId}/count:
 #    get:
 
+  /tool/titles/{nodeId}:
+    get:
+      tags:
+      - tool
+      summary: Get 100 amazon best selling item titles within a specified browse node
+      description: Return Titles
+      operationId: "getToolTitles"
+      produces:
+      - "application/json"
+      parameters:
+      - name: nodeId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/GetToolTitlesResponse"
+        400:
+          description: Invalid input
+        404:
+          description: Titles not found
+
+  /tool/dictionary/browseNodes/{nodeId}/all:
+    get:
+      tags:
+      - tool
+      summary: Get all dictionary hierarchy within a specified browse node
+      description: Return all dictionary hierarchy
+      operationId: "getDictionaryBrowseNodesAll"
+      produces:
+      - "application/json"
+      parameters:
+      - name: nodeId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/GetDictionaryBrowseNodesAllResponse"
+        400:
+          description: Invalid input
+        404:
+          description: Dictionary not found
+
+  /tool/dictionary/subAttrs/words:
+    get:
+      tags:
+      - tool
+      summary: Get dictionary words with subAttrId list
+      description: Return Dictionary Words
+      operationId: "getDictionarySubAttrsWords"
+      produces:
+      - "application/json"
+      parameters:
+      - name: subAttrIds
+        in: "query"
+        description: ""
+        required: true
+        type: array
+        items:
+          type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/GetDictionarySubAttrsWordsResponse"
+        400:
+          description: Invalid input
+        404:
+          description: Dictionary not found
+
+  /tool/dictionary/words/{nodeId}/filtered:
+    get:
+      tags:
+      - tool
+      summary: Get filtered words within a specified browse node with filtering words
+      description: Return filtered words cloud
+      operationId: "getDictionaryWordsFiltered"
+      produces:
+      - "application/json"
+      parameters:
+      - name: nodeId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      - name: filters
+        in: "query"
+        description: ""
+        required: true
+        type: array
+        items:
+          type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/GetDictionaryWordsFilteredResponse"
+        400:
+          description: Invalid input
+        404:
+          description: Dictionary not found
+
+  /tool/dictionary/products/{nodeId}/attrs/{attrId}:
+    get:
+      tags:
+      - tool
+      summary: Get an attribute within a specified browse node's
+      description: Return an attribute
+      operationId: "getDictionaryProductsAttrs"
+      produces:
+      - "application/json"
+      parameters:
+      - name: nodeId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      - name: attrId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/GetDictionaryProductsAttrsResponse"
+        400:
+          description: Invalid input
+        404:
+          description: Attr not found
+
+    post:
+      tags:
+      - tool
+      summary: Add attribute within a specified browse node's
+      description: Add attribute
+      operationId: "postDictionaryProductsAttrs"
+      produces:
+      - "application/json"
+      parameters:
+      - name: nodeId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      - name: attrId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      - name: attrUsName
+        in: "query"
+        description: "Upserting if exists"
+        required: true
+        type: string
+      - name: attrKrName
+        in: "query"
+        description: "Upserting if exists"
+        required: true
+        type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/PostDictionaryProductsAttrsResponse"
+        400:
+          description: Invalid input
+        404:
+          description: Attr not found
+
+  /tool/dictionary/products/{nodeId}/attrs/{attrId}/subAttrs/{subAttrId}:
+    get:
+      tags:
+      - tool
+      summary: Get a sub attribute within a specified browse node's attribute
+      description: Get a sub attribute
+      operationId: "getDictionaryProductsAttrsSubAttrs"
+      produces:
+      - "application/json"
+      parameters:
+      - name: nodeId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      - name: attrId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      - name: subAttrId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/GetDictionaryProductsAttrsSubAttrsResponse"
+        400:
+          description: Invalid input
+        404:
+          description: SubAttr not found
+
+    post:
+      tags:
+      - tool
+      summary: Add sub attribute within a specified browse node's attribute
+      description: Add sub attribute
+      operationId: "postDictionaryProductsAttrsSubAttrs"
+      produces:
+      - "application/json"
+      parameters:
+      - name: nodeId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      - name: attrId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      - name: subAttrId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      - name: subAttrUsName
+        in: "query"
+        description: "Upserting if exists"
+        required: true
+        type: string
+      - name: subAttrKrName
+        in: "query"
+        description: "Upserting if exists"
+        required: true
+        type: string
+
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/PostDictionaryProductsAttrsSubAttrsResponse"
+        400:
+          description: Invalid input
+        404:
+          description: SubAttr not found
+
+  /tool/dictionary/products/{nodeId}/attrs/{attrId}/subAttrs/{subAttrId}/words:
+    get:
+      tags:
+      - tool
+      summary: Check the dic_word contains within a specified browse node's attribute's sub attribute
+      description: Checket a dic_word contains
+      operationId: "getDictionaryProductsAttrsSubAttrsWords"
+      produces:
+      - "application/json"
+      parameters:
+      - name: nodeId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      - name: attrId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      - name: subAttrId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      - name: word
+        in: "query"
+        description: ""
+        required: true
+        type: string
+
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/GetDictionaryProductsAttrsSubAttrsWordsResponse"
+        400:
+          description: Invalid input
+        404:
+          description: SubAttr not found
+
+    post:
+      tags:
+      - tool
+      summary: Add a dic_word within a specified browse node's attribute's sub attribute
+      description: Add a dic_word
+      operationId: "postDictionaryProductsAttrsSubAttrsWords"
+      produces:
+      - "application/json"
+      parameters:
+      - name: nodeId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      - name: attrId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      - name: subAttrId
+        in: "path"
+        description: ""
+        required: true
+        type: string
+      - name: word
+        in: "query"
+        description: ""
+        required: true
+        type: string
+
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/PostDictionaryProductsAttrsSubAttrsWordsResponse"
+        400:
+          description: Invalid input
+        404:
+          description: SubAttr not found
+
+  /tool/dictionary/subAttrs/words/count/reset:
+    post:
+      tags:
+      - tool
+      summary: Reset title_dic counts
+      description: Reset title_dic counts
+      operationId: "postDictionarySubAttrsWordsCountReset"
+      produces:
+      - "application/json"
+      parameters:
+      - name: subAttrIds
+        in: "query"
+        description: ""
+        required: true
+        type: array
+        items:
+          type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/PostDictionarySubAttrsWordsCountResetResponse"
+        400:
+          description: Invalid input
+        404:
+          description: SubAttrs not found
+
+  /tool/dictionary/words:
+    get:
+      tags:
+      - tool
+      summary: "[DEPRECATED] Get dictionary words for filtering within specified browse nodes"
+      description: "[DEPRECATED] Return Dictionary Words for filtering ingredients"
+      operationId: "getDictionaryWords"
+      produces:
+      - "application/json"
+      parameters:
+      - name: nodeIds
+        in: "query"
+        description: ""
+        required: true
+        type: array
+        items:
+          type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/GetDictionaryWordsResponse"
+        400:
+          description: Invalid input
+        404:
+          description: Dictionary not found
+
+    post:
+      tags:
+      - tool
+      summary: "[DEPRECATED] Add filtering word to dictionary"
+      description: "[DEPRECATED] Add to dictionary"
+      operationId: "postDictionaryWords"
+      produces:
+      - "application/json"
+      parameters:
+      - name: subAttrId
+        in: "query"
+        description: ""
+        required: true
+        type: string
+      - name: word
+        in: "query"
+        description: ""
+        required: true
+        type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: "#/definitions/PostDictionaryWordsResponse"
+        400:
+          description: Invalid input
+        404:
+          description: Dictionary not found
+
 securityDefinitions:
   api_key:
     type: apiKey
@@ -311,18 +736,20 @@ definitions:
   Attr:
     type: object
     properties:
-      attr_code:
+      attr_id:
         type: string
-      value:
+      attr_us_name:
+        type: string
+      attr_kr_name:
         type: string
   SubAttr:
     type: object
     properties:
-      sub_attr_code:
+      sub_attr_id:
         type: string
-      value:
+      sub_attr_us_name:
         type: string
-      text:
+      sub_attr_kr_name:
         type: string
   FeedSubmissionInfo:
     type: object
@@ -332,6 +759,15 @@ definitions:
       feed_processing_status:
         type: string
       feed_type:
+        type: string
+  TitleDic:
+    type: object
+    properties:
+      sub_attr_id:
+        type: string
+      dic_word:
+        type: string
+      count:
         type: string
 
   GetProductsStatusResponse:
@@ -449,6 +885,136 @@ definitions:
         properties:
           result:
             type: string
+
+  GetToolTitlesResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      data:
+        type: object
+        properties:
+          titles:
+            type: array
+            items:
+              type: string
+  GetDictionaryWordsResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      data:
+        type: object
+        properties:
+          words:
+            type: array
+            items:
+              type: string
+  GetDictionaryBrowseNodesAllResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      data:
+        type: array
+        items:
+          type: object
+          properties:
+            attr:
+              $ref: '#/definitions/Attr'
+            sub_attrs:
+              type: array
+              items:
+                type: object
+                properties:
+                  sub_attr:
+                    $ref: '#/definitions/SubAttr'
+                  title_dics:
+                    type: array
+                    items:
+                      $ref: '#/definitions/TitleDic'
+  GetDictionarySubAttrsWordsResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/TitleDic'
+  GetDictionaryWordsFilteredResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      data:
+        type: object
+        properties:
+          words:
+            type: array
+            items:
+              type: object
+              properties:
+                text:
+                  type: string
+                count:
+                  type: string
+  PostDictionaryWordsResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      data:
+        type: string
+  GetDictionaryProductsAttrsResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      data:
+        $ref: '#/definitions/Attr'
+  PostDictionaryProductsAttrsResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      data:
+        type: string
+  GetDictionaryProductsAttrsSubAttrsResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      data:
+        $ref: '#/definitions/SubAttr'
+  PostDictionaryProductsAttrsSubAttrsResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      data:
+        type: string
+  GetDictionaryProductsAttrsSubAttrsWordsResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      data:
+        type: boolean
+  PostDictionaryProductsAttrsSubAttrsWordsResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      data:
+        type: string
+  PostDictionarySubAttrsWordsCountResetResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      data:
+        type: string
 
 externalDocs:
   description: Find out more about Bluehack Inc.

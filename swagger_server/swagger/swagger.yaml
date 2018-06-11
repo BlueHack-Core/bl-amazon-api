@@ -2,7 +2,7 @@
 swagger: "2.0"
 info:
   description: "This is an API documentation for the Bluehack Amazon Service."
-  version: "0.0.1"
+  version: "0.0.7"
   title: "bl-amazon-api"
   contact:
     email: "master@bluehack.net"
@@ -18,6 +18,8 @@ tags:
   description: "amazon product advertising api"
 - name: "mws"
   description: "amazon mws api"
+- name: "tool"
+  description: "best sellings dictionary tool api"
 schemes:
 - "http"
 paths:
@@ -289,6 +291,432 @@ paths:
         404:
           description: "MWS not found"
       x-swagger-router-controller: "swagger_server.controllers.mws_controller"
+  /tool/titles/{nodeId}:
+    get:
+      tags:
+      - "tool"
+      summary: "Get 100 amazon best selling item titles within a specified browse\
+        \ node"
+      description: "Return Titles"
+      operationId: "get_tool_titles"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nodeId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/GetToolTitlesResponse"
+        400:
+          description: "Invalid input"
+        404:
+          description: "Titles not found"
+      x-swagger-router-controller: "swagger_server.controllers.tool_controller"
+  /tool/dictionary/browseNodes/{nodeId}/all:
+    get:
+      tags:
+      - "tool"
+      summary: "Get all dictionary hierarchy within a specified browse node"
+      description: "Return all dictionary hierarchy"
+      operationId: "get_dictionary_browse_nodes_all"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nodeId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/GetDictionaryBrowseNodesAllResponse"
+        400:
+          description: "Invalid input"
+        404:
+          description: "Dictionary not found"
+      x-swagger-router-controller: "swagger_server.controllers.tool_controller"
+  /tool/dictionary/subAttrs/words:
+    get:
+      tags:
+      - "tool"
+      summary: "Get dictionary words with subAttrId list"
+      description: "Return Dictionary Words"
+      operationId: "get_dictionary_sub_attrs_words"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "subAttrIds"
+        in: "query"
+        description: ""
+        required: true
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/GetDictionarySubAttrsWordsResponse"
+        400:
+          description: "Invalid input"
+        404:
+          description: "Dictionary not found"
+      x-swagger-router-controller: "swagger_server.controllers.tool_controller"
+  /tool/dictionary/words/{nodeId}/filtered:
+    get:
+      tags:
+      - "tool"
+      summary: "Get filtered words within a specified browse node with filtering words"
+      description: "Return filtered words cloud"
+      operationId: "get_dictionary_words_filtered"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nodeId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "filters"
+        in: "query"
+        description: ""
+        required: true
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/GetDictionaryWordsFilteredResponse"
+        400:
+          description: "Invalid input"
+        404:
+          description: "Dictionary not found"
+      x-swagger-router-controller: "swagger_server.controllers.tool_controller"
+  /tool/dictionary/products/{nodeId}/attrs/{attrId}:
+    get:
+      tags:
+      - "tool"
+      summary: "Get an attribute within a specified browse node's"
+      description: "Return an attribute"
+      operationId: "get_dictionary_products_attrs"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nodeId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "attrId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/GetDictionaryProductsAttrsResponse"
+        400:
+          description: "Invalid input"
+        404:
+          description: "Attr not found"
+      x-swagger-router-controller: "swagger_server.controllers.tool_controller"
+    post:
+      tags:
+      - "tool"
+      summary: "Add attribute within a specified browse node's"
+      description: "Add attribute"
+      operationId: "post_dictionary_products_attrs"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nodeId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "attrId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "attrUsName"
+        in: "query"
+        description: "Upserting if exists"
+        required: true
+        type: "string"
+      - name: "attrKrName"
+        in: "query"
+        description: "Upserting if exists"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/PostDictionaryProductsAttrsResponse"
+        400:
+          description: "Invalid input"
+        404:
+          description: "Attr not found"
+      x-swagger-router-controller: "swagger_server.controllers.tool_controller"
+  /tool/dictionary/products/{nodeId}/attrs/{attrId}/subAttrs/{subAttrId}:
+    get:
+      tags:
+      - "tool"
+      summary: "Get a sub attribute within a specified browse node's attribute"
+      description: "Get a sub attribute"
+      operationId: "get_dictionary_products_attrs_sub_attrs"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nodeId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "attrId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "subAttrId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/GetDictionaryProductsAttrsSubAttrsResponse"
+        400:
+          description: "Invalid input"
+        404:
+          description: "SubAttr not found"
+      x-swagger-router-controller: "swagger_server.controllers.tool_controller"
+    post:
+      tags:
+      - "tool"
+      summary: "Add sub attribute within a specified browse node's attribute"
+      description: "Add sub attribute"
+      operationId: "post_dictionary_products_attrs_sub_attrs"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nodeId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "attrId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "subAttrId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "subAttrUsName"
+        in: "query"
+        description: "Upserting if exists"
+        required: true
+        type: "string"
+      - name: "subAttrKrName"
+        in: "query"
+        description: "Upserting if exists"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/PostDictionaryProductsAttrsSubAttrsResponse"
+        400:
+          description: "Invalid input"
+        404:
+          description: "SubAttr not found"
+      x-swagger-router-controller: "swagger_server.controllers.tool_controller"
+  /tool/dictionary/products/{nodeId}/attrs/{attrId}/subAttrs/{subAttrId}/words:
+    get:
+      tags:
+      - "tool"
+      summary: "Check the dic_word contains within a specified browse node's attribute's\
+        \ sub attribute"
+      description: "Checket a dic_word contains"
+      operationId: "get_dictionary_products_attrs_sub_attrs_words"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nodeId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "attrId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "subAttrId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "word"
+        in: "query"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/GetDictionaryProductsAttrsSubAttrsWordsResponse"
+        400:
+          description: "Invalid input"
+        404:
+          description: "SubAttr not found"
+      x-swagger-router-controller: "swagger_server.controllers.tool_controller"
+    post:
+      tags:
+      - "tool"
+      summary: "Add a dic_word within a specified browse node's attribute's sub attribute"
+      description: "Add a dic_word"
+      operationId: "post_dictionary_products_attrs_sub_attrs_words"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nodeId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "attrId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "subAttrId"
+        in: "path"
+        description: ""
+        required: true
+        type: "string"
+      - name: "word"
+        in: "query"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/PostDictionaryProductsAttrsSubAttrsWordsResponse"
+        400:
+          description: "Invalid input"
+        404:
+          description: "SubAttr not found"
+      x-swagger-router-controller: "swagger_server.controllers.tool_controller"
+  /tool/dictionary/subAttrs/words/count/reset:
+    post:
+      tags:
+      - "tool"
+      summary: "Reset title_dic counts"
+      description: "Reset title_dic counts"
+      operationId: "post_dictionary_sub_attrs_words_count_reset"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "subAttrIds"
+        in: "query"
+        description: ""
+        required: true
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/PostDictionarySubAttrsWordsCountResetResponse"
+        400:
+          description: "Invalid input"
+        404:
+          description: "SubAttrs not found"
+      x-swagger-router-controller: "swagger_server.controllers.tool_controller"
+  /tool/dictionary/words:
+    get:
+      tags:
+      - "tool"
+      summary: "[DEPRECATED] Get dictionary words for filtering within specified browse\
+        \ nodes"
+      description: "[DEPRECATED] Return Dictionary Words for filtering ingredients"
+      operationId: "get_dictionary_words"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nodeIds"
+        in: "query"
+        description: ""
+        required: true
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/GetDictionaryWordsResponse"
+        400:
+          description: "Invalid input"
+        404:
+          description: "Dictionary not found"
+      x-swagger-router-controller: "swagger_server.controllers.tool_controller"
+    post:
+      tags:
+      - "tool"
+      summary: "[DEPRECATED] Add filtering word to dictionary"
+      description: "[DEPRECATED] Add to dictionary"
+      operationId: "post_dictionary_words"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "subAttrId"
+        in: "query"
+        description: ""
+        required: true
+        type: "string"
+      - name: "word"
+        in: "query"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/PostDictionaryWordsResponse"
+        400:
+          description: "Invalid input"
+        404:
+          description: "Dictionary not found"
+      x-swagger-router-controller: "swagger_server.controllers.tool_controller"
 securityDefinitions:
   api_key:
     type: "apiKey"
@@ -324,26 +752,29 @@ definitions:
   Attr:
     type: "object"
     properties:
-      attr_code:
+      attr_id:
         type: "string"
-      value:
+      attr_us_name:
+        type: "string"
+      attr_kr_name:
         type: "string"
     example:
-      attr_code: "attr_code"
-      value: "value"
+      attr_kr_name: "attr_kr_name"
+      attr_us_name: "attr_us_name"
+      attr_id: "attr_id"
   SubAttr:
     type: "object"
     properties:
-      sub_attr_code:
+      sub_attr_id:
         type: "string"
-      value:
+      sub_attr_us_name:
         type: "string"
-      text:
+      sub_attr_kr_name:
         type: "string"
     example:
-      sub_attr_code: "sub_attr_code"
-      text: "text"
-      value: "value"
+      sub_attr_kr_name: "sub_attr_kr_name"
+      sub_attr_us_name: "sub_attr_us_name"
+      sub_attr_id: "sub_attr_id"
   FeedSubmissionInfo:
     type: "object"
     properties:
@@ -357,6 +788,19 @@ definitions:
       feed_submission_id: "feed_submission_id"
       feed_type: "feed_type"
       feed_processing_status: "feed_processing_status"
+  TitleDic:
+    type: "object"
+    properties:
+      sub_attr_id:
+        type: "string"
+      dic_word:
+        type: "string"
+      count:
+        type: "string"
+    example:
+      count: "count"
+      dic_word: "dic_word"
+      sub_attr_id: "sub_attr_id"
   GetProductsStatusResponse:
     type: "object"
     properties:
@@ -376,25 +820,27 @@ definitions:
     example:
       data:
       - sub_attrs:
-        - sub_attr_code: "sub_attr_code"
-          text: "text"
-          value: "value"
-        - sub_attr_code: "sub_attr_code"
-          text: "text"
-          value: "value"
+        - sub_attr_kr_name: "sub_attr_kr_name"
+          sub_attr_us_name: "sub_attr_us_name"
+          sub_attr_id: "sub_attr_id"
+        - sub_attr_kr_name: "sub_attr_kr_name"
+          sub_attr_us_name: "sub_attr_us_name"
+          sub_attr_id: "sub_attr_id"
         attr:
-          attr_code: "attr_code"
-          value: "value"
+          attr_kr_name: "attr_kr_name"
+          attr_us_name: "attr_us_name"
+          attr_id: "attr_id"
       - sub_attrs:
-        - sub_attr_code: "sub_attr_code"
-          text: "text"
-          value: "value"
-        - sub_attr_code: "sub_attr_code"
-          text: "text"
-          value: "value"
+        - sub_attr_kr_name: "sub_attr_kr_name"
+          sub_attr_us_name: "sub_attr_us_name"
+          sub_attr_id: "sub_attr_id"
+        - sub_attr_kr_name: "sub_attr_kr_name"
+          sub_attr_us_name: "sub_attr_us_name"
+          sub_attr_id: "sub_attr_id"
         attr:
-          attr_code: "attr_code"
-          value: "value"
+          attr_kr_name: "attr_kr_name"
+          attr_us_name: "attr_us_name"
+          attr_id: "attr_id"
       message: "message"
   GetProductsBrowseNodeValidValueResponse:
     type: "object"
@@ -508,6 +954,217 @@ definitions:
       data:
         result: "result"
       message: "message"
+  GetToolTitlesResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      data:
+        $ref: "#/definitions/GetToolTitlesResponse_data"
+    example:
+      data:
+        titles:
+        - "titles"
+        - "titles"
+      message: "message"
+  GetDictionaryWordsResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      data:
+        $ref: "#/definitions/GetDictionaryWordsResponse_data"
+    example:
+      data:
+        words:
+        - "words"
+        - "words"
+      message: "message"
+  GetDictionaryBrowseNodesAllResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      data:
+        type: "array"
+        items:
+          $ref: "#/definitions/GetDictionaryBrowseNodesAllResponse_data"
+    example:
+      data:
+      - sub_attrs:
+        - sub_attr:
+            sub_attr_kr_name: "sub_attr_kr_name"
+            sub_attr_us_name: "sub_attr_us_name"
+            sub_attr_id: "sub_attr_id"
+          title_dics:
+          - count: "count"
+            dic_word: "dic_word"
+            sub_attr_id: "sub_attr_id"
+          - count: "count"
+            dic_word: "dic_word"
+            sub_attr_id: "sub_attr_id"
+        - sub_attr:
+            sub_attr_kr_name: "sub_attr_kr_name"
+            sub_attr_us_name: "sub_attr_us_name"
+            sub_attr_id: "sub_attr_id"
+          title_dics:
+          - count: "count"
+            dic_word: "dic_word"
+            sub_attr_id: "sub_attr_id"
+          - count: "count"
+            dic_word: "dic_word"
+            sub_attr_id: "sub_attr_id"
+        attr:
+          attr_kr_name: "attr_kr_name"
+          attr_us_name: "attr_us_name"
+          attr_id: "attr_id"
+      - sub_attrs:
+        - sub_attr:
+            sub_attr_kr_name: "sub_attr_kr_name"
+            sub_attr_us_name: "sub_attr_us_name"
+            sub_attr_id: "sub_attr_id"
+          title_dics:
+          - count: "count"
+            dic_word: "dic_word"
+            sub_attr_id: "sub_attr_id"
+          - count: "count"
+            dic_word: "dic_word"
+            sub_attr_id: "sub_attr_id"
+        - sub_attr:
+            sub_attr_kr_name: "sub_attr_kr_name"
+            sub_attr_us_name: "sub_attr_us_name"
+            sub_attr_id: "sub_attr_id"
+          title_dics:
+          - count: "count"
+            dic_word: "dic_word"
+            sub_attr_id: "sub_attr_id"
+          - count: "count"
+            dic_word: "dic_word"
+            sub_attr_id: "sub_attr_id"
+        attr:
+          attr_kr_name: "attr_kr_name"
+          attr_us_name: "attr_us_name"
+          attr_id: "attr_id"
+      message: "message"
+  GetDictionarySubAttrsWordsResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      data:
+        type: "array"
+        items:
+          $ref: "#/definitions/TitleDic"
+    example:
+      data:
+      - count: "count"
+        dic_word: "dic_word"
+        sub_attr_id: "sub_attr_id"
+      - count: "count"
+        dic_word: "dic_word"
+        sub_attr_id: "sub_attr_id"
+      message: "message"
+  GetDictionaryWordsFilteredResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      data:
+        $ref: "#/definitions/GetDictionaryWordsFilteredResponse_data"
+    example:
+      data:
+        words:
+        - count: "count"
+          text: "text"
+        - count: "count"
+          text: "text"
+      message: "message"
+  PostDictionaryWordsResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      data:
+        type: "string"
+    example:
+      data: "data"
+      message: "message"
+  GetDictionaryProductsAttrsResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      data:
+        $ref: "#/definitions/Attr"
+    example:
+      data:
+        attr_kr_name: "attr_kr_name"
+        attr_us_name: "attr_us_name"
+        attr_id: "attr_id"
+      message: "message"
+  PostDictionaryProductsAttrsResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      data:
+        type: "string"
+    example:
+      data: "data"
+      message: "message"
+  GetDictionaryProductsAttrsSubAttrsResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      data:
+        $ref: "#/definitions/SubAttr"
+    example:
+      data:
+        sub_attr_kr_name: "sub_attr_kr_name"
+        sub_attr_us_name: "sub_attr_us_name"
+        sub_attr_id: "sub_attr_id"
+      message: "message"
+  PostDictionaryProductsAttrsSubAttrsResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      data:
+        type: "string"
+    example:
+      data: "data"
+      message: "message"
+  GetDictionaryProductsAttrsSubAttrsWordsResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      data:
+        type: "boolean"
+    example:
+      data: true
+      message: "message"
+  PostDictionaryProductsAttrsSubAttrsWordsResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      data:
+        type: "string"
+    example:
+      data: "data"
+      message: "message"
+  PostDictionarySubAttrsWordsCountResetResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      data:
+        type: "string"
+    example:
+      data: "data"
+      message: "message"
   GetProductsBrowseNodeAttributesResponse_data:
     properties:
       attr:
@@ -518,15 +1175,16 @@ definitions:
           $ref: "#/definitions/SubAttr"
     example:
       sub_attrs:
-      - sub_attr_code: "sub_attr_code"
-        text: "text"
-        value: "value"
-      - sub_attr_code: "sub_attr_code"
-        text: "text"
-        value: "value"
+      - sub_attr_kr_name: "sub_attr_kr_name"
+        sub_attr_us_name: "sub_attr_us_name"
+        sub_attr_id: "sub_attr_id"
+      - sub_attr_kr_name: "sub_attr_kr_name"
+        sub_attr_us_name: "sub_attr_us_name"
+        sub_attr_id: "sub_attr_id"
       attr:
-        attr_code: "attr_code"
-        value: "value"
+        attr_kr_name: "attr_kr_name"
+        attr_us_name: "attr_us_name"
+        attr_id: "attr_id"
   GetProductsBrowseNodeValidValueResponse_data:
     properties:
       valid_value:
@@ -617,6 +1275,103 @@ definitions:
         type: "string"
     example:
       result: "result"
+  GetToolTitlesResponse_data:
+    properties:
+      titles:
+        type: "array"
+        items:
+          type: "string"
+    example:
+      titles:
+      - "titles"
+      - "titles"
+  GetDictionaryWordsResponse_data:
+    properties:
+      words:
+        type: "array"
+        items:
+          type: "string"
+    example:
+      words:
+      - "words"
+      - "words"
+  GetDictionaryBrowseNodesAllResponse_sub_attrs:
+    properties:
+      sub_attr:
+        $ref: "#/definitions/SubAttr"
+      title_dics:
+        type: "array"
+        items:
+          $ref: "#/definitions/TitleDic"
+    example:
+      sub_attr:
+        sub_attr_kr_name: "sub_attr_kr_name"
+        sub_attr_us_name: "sub_attr_us_name"
+        sub_attr_id: "sub_attr_id"
+      title_dics:
+      - count: "count"
+        dic_word: "dic_word"
+        sub_attr_id: "sub_attr_id"
+      - count: "count"
+        dic_word: "dic_word"
+        sub_attr_id: "sub_attr_id"
+  GetDictionaryBrowseNodesAllResponse_data:
+    properties:
+      attr:
+        $ref: "#/definitions/Attr"
+      sub_attrs:
+        type: "array"
+        items:
+          $ref: "#/definitions/GetDictionaryBrowseNodesAllResponse_sub_attrs"
+    example:
+      sub_attrs:
+      - sub_attr:
+          sub_attr_kr_name: "sub_attr_kr_name"
+          sub_attr_us_name: "sub_attr_us_name"
+          sub_attr_id: "sub_attr_id"
+        title_dics:
+        - count: "count"
+          dic_word: "dic_word"
+          sub_attr_id: "sub_attr_id"
+        - count: "count"
+          dic_word: "dic_word"
+          sub_attr_id: "sub_attr_id"
+      - sub_attr:
+          sub_attr_kr_name: "sub_attr_kr_name"
+          sub_attr_us_name: "sub_attr_us_name"
+          sub_attr_id: "sub_attr_id"
+        title_dics:
+        - count: "count"
+          dic_word: "dic_word"
+          sub_attr_id: "sub_attr_id"
+        - count: "count"
+          dic_word: "dic_word"
+          sub_attr_id: "sub_attr_id"
+      attr:
+        attr_kr_name: "attr_kr_name"
+        attr_us_name: "attr_us_name"
+        attr_id: "attr_id"
+  GetDictionaryWordsFilteredResponse_data_words:
+    properties:
+      text:
+        type: "string"
+      count:
+        type: "string"
+    example:
+      count: "count"
+      text: "text"
+  GetDictionaryWordsFilteredResponse_data:
+    properties:
+      words:
+        type: "array"
+        items:
+          $ref: "#/definitions/GetDictionaryWordsFilteredResponse_data_words"
+    example:
+      words:
+      - count: "count"
+        text: "text"
+      - count: "count"
+        text: "text"
 externalDocs:
   description: "Find out more about Bluehack Inc."
   url: "http://bluehack.net"
